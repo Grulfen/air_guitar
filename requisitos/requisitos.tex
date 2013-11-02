@@ -1,0 +1,168 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{array}
+\usepackage[margin=25mm]{geometry}
+
+\title{Documento de Requisitos}
+\author{Carlos Bergen Dyck \and Gustav Svensk}
+\begin{document}
+
+\renewcommand{\arraystretch}{1.5}
+\maketitle
+\begin{center}
+        {\large Versión 0.1}
+\end{center}
+\newpage
+
+
+\section{Prefacio}
+\begin{tabular}{p{3cm} p{12cm}}
+        & Este es el Documento de Requisitos de Air Guitar, que consiste en
+        producir sonido cuando se toca a su Air Guitar. \\
+        \textbf{Alcance del documento} & El Documento de Requisitos es la base
+        de todo el desarrollo futuro de Nombre del Sistema. Describe los
+        siguientes aspectos del sistema: propósito, contexto, requisitos
+        funcionales, requisitos de pruebas, requisitos de calidad, requisitos
+        de ambiente, arquitectura del sistema, requisitos del desarrollo,
+        requisitos de post-desarrollo, y riesgos del proyecto. \\
+        \textbf{Documentos relacionados} & Documento de Inicio de Proyecto,
+        proyecto Nombre del Sistema, versión X, fecha. \\
+        \textbf{Autor} & Carlos Bergen Dyck y Gustav Svensk \\
+        \textbf{Lectores} & Este documento está dirigido principalmente a los
+        desarrolladores del proyecto, pero es de interés de todos los
+        interesados en el mismo. \\
+\end{tabular}
+
+\section{Historia del Documento}
+\begin{tabular}{|c|c|p{6cm}|p{4cm}|}
+        \hline
+        \textbf{Versión} & \textbf{Fecha} & \textbf{Explicación del cambio} &
+        \textbf{Autor} \\ \hline
+        0.1 & 30/10/2013 & Primer borrador & Carlos Bergen Dyck y Gustav Svensk \\
+        \hline
+\end{tabular}
+
+\newpage
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+\newpage
+
+\section{Introducción}
+En esta introducción se describe brevemente el contexto, objetivos y alcance
+del proyecto a desarrollar, así como la documentación relativa al mismo. Esta
+información está basada en el Documento de Inicio de Proyecto.
+
+\subsection{Propósito}
+Se generará un sonido de guitarra cuando un usuario esté simulando el tocar
+una guitarra en el aire. El tono y el volumen se basaran en la posición de
+las manos y la cadera del usuario.
+
+\subsection{Alcance}
+El sistema generará sonidos de acordes de guitarra. El tono se calculará en
+base a la distancia entre la mano izquierda y la cadera. El volumen se
+calculará en base a la velocidad de la mano derecha. Los sonidos se
+reproducirán cuando la mano derecha pase sobre un área predefinida que
+simulara el área de las cuerdas de una guitarra real.  El sistema funcionará
+con un solo usuario a la vez. Deberá estar parado, de frente al Kinect y a
+una distancia de entre 0,8m  a 2.5m aproximadamente debido a las limitaciones
+técnicas del Kinect. Ademas debe existir una iluminación adecuada. Solo se
+podrán tocar power chords (acordes que consisten de la nota fundamental, su
+quinta y octavas). El rango de sonidos será similar a una guitarra real
+siendo la nota fundamental más grave E1 y la más aguda E2, así cubriendo una
+octava, generando un total de 12 acordes posibles en todos los semitonos. 
+
+\subsection{Contexto}
+“Air Guitar” es un movimiento en donde se pretende tocar una guitarra.
+Usualmente estos movimientos carecen de sonido. Desde 1996 se ha realizado
+anualmente el Campeonato Mundial de Air Guitar en Finlandia.
+
+Kinect es un sensor de movimiento creado inicialmente para el Xbox 360.
+Utiliza una cámara RGB y un sensor infrarrojo para detectar la distancia de
+diferentes objetos y seguir los movimientos del cuerpo humano.
+
+Microsoft libero el SDK de Kinect for Windows en el 2011. Esto permitió a los
+desarrolladores crear aplicaciones que usaran el Kinect en C++/CLI, C\# y
+Visual Basic .NET. Este SDK permite reconocer movimientos, gestos y comandos
+de voz. La ultima version también incluye herramientas para quitar el fondo
+para obtener un efecto de pantalla verde, mejoras para escanear y modelar
+objetos 3D con Kinect Fusion y la opción para codificar en HTML5/JavaScript.
+\subsection{Referencias}
+
+\section{Requisitos del Sistema}
+Esta sección describe los requisitos funcionales del sistema, sus interfaces
+externas, las condiciones de excepción y las clases de pruebas que se harán
+para verificar que los requisitos se cumplen.
+\subsection{Requisitos Funcionales}
+Los requisitos funcionales definen el comportamiento del sistema. Es decir,
+describen lo que debe hacer el sistema.
+\begin{table}[h]
+        \centering
+        \begin{tabular}{c l}
+                \textbf{RF1} & Obtener la posición de las manos y la cadera \\
+                \textbf{RF2} & Obtener la velocidad de la mano derecha \\
+                \textbf{RF3} & Calcular tono y volumen en base a la posición
+                y velocidad de las manos \\
+                \textbf{RF4} & Reproducir sonido en base al tono y volumen \\
+                \textbf{RF5} & Proyectar modelo 3D de guitarra \\
+        \end{tabular}
+        \caption{Requisitos funcionales}
+        \label{tab:req_func}
+\end{table}
+
+\subsection{Requisitos de Interfaces}
+\begin{table}
+        \centering
+        \begin{tabular}{|p{2cm}|p{4cm}|c|p{3cm}|p{2cm}|}
+                \hline
+                \textbf{Evento} & \textbf{Descripción} & \textbf{Iniciador} &
+                \textbf{Parámetros} & \textbf{Respuesta} \\
+                \hline
+                Recepción de datos de Kinect & Se recibe información del
+                Kinect sobre los puntos del esqueleto. & Kinect & Colección
+                de puntos 3D del esqueleto del usuario. & Tono y volumen \\
+                \hline
+        \end{tabular}
+        \caption{Eventos externos}
+        \label{tab:event}
+\end{table}
+
+\section{Requisitos de Ambiente}
+Esta sección describe el hardware y software relevante para el sistema Air
+Guitar.
+\subsection{Requisitos del Ambiente de Desarrollo}
+\subsubsection{Hardware de Desarrollo}
+\subsubsection{Software de Desarrollo}
+
+\section{Arquitectura del Sistema}
+\subsection{Diagrama de Flujo de Datos}
+\subsection{Descripción de Módulos}
+\subsubsection{Módulo 1(Abreviatura)}
+\subsection{Matriz de Requisitos Funcionales y Componentes}
+
+\section{Gestión de Riesgos}
+\subsection{Supuestos}
+\subsection{Dependencias}
+\subsection{Restricciones}
+\subsection{Riesgos}
+\subsubsection{Riesgo 1}
+
+\newpage 
+\appendix 
+\newpage
+
+% \addcontentsline{toc}{section}{References}
+% \begin{thebibliography}{99}
+% \bibitem{depth_range}\textit{http://msdn.microsoft.com/en-us/library/hh973078.aspx#Depth_Ranges}
+%         Microsoft Developer Network, 30 Oct 2013
+% \end{thebibliography}
+
+\end{document} 
+%%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:
