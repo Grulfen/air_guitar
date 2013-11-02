@@ -103,7 +103,7 @@ para verificar que los requisitos se cumplen.
 \subsection{Requisitos Funcionales}
 Los requisitos funcionales definen el comportamiento del sistema. Es decir,
 describen lo que debe hacer el sistema.
-\begin{table}[h]
+\begin{table}[h!]
         \centering
         \begin{tabular}{c l}
                 \textbf{RF1} & Obtener la posición de las manos y la cadera \\
@@ -118,9 +118,15 @@ describen lo que debe hacer el sistema.
 \end{table}
 
 \subsection{Requisitos de Interfaces}
-\begin{table}
+La Tabla \ref{tab:event} muestra la lista de eventos externos a los que el sistema responde.
+La primera columna es el nombre del evento; la segunda es la descripción del
+mismo. El “iniciador” es la componente externa al sistema que inicia el evento.
+Los parámetros son los datos asociados al evento. La respuesta es el nombre de
+una respuesta, cuya descripción está en la Tabla \ref{tab:respuesta}.
+La tabla \ref{tab:respuesta} muestra las respuestas del sistema frente a eventos externos.
+\begin{table}[h!]
         \centering
-        \begin{tabular}{|p{2cm}|p{4cm}|c|p{3cm}|p{2cm}|}
+        \begin{tabular}{|p{2cm}|p{4cm}|c|p{3cm}|p{25mm}|}
                 \hline
                 \textbf{Evento} & \textbf{Descripción} & \textbf{Iniciador} &
                 \textbf{Parámetros} & \textbf{Respuesta} \\
@@ -129,9 +135,34 @@ describen lo que debe hacer el sistema.
                 Kinect sobre los puntos del esqueleto. & Kinect & Colección
                 de puntos 3D del esqueleto del usuario. & Tono y volumen \\
                 \hline
+                Tocar guitarra & Se reproduce un sonido de guitarra cuando la
+                mano entra a un área de reproducción. & Usuario & Velocidad de
+                la mano derecha y posición de la mano izquierda & Reproducción
+                de sonido \\
+                \hline
         \end{tabular}
         \caption{Eventos externos}
         \label{tab:event}
+\end{table}
+
+\begin{table}[h!]
+        \centering
+        \begin{tabular}{|p{3cm}|p{6cm}|p{4cm}|}
+                \hline
+                \textbf{Respuesta} & \textbf{Descripción} & \textbf{Parámetros} \\
+                \hline
+                Tono y volumen & Calcula el tono basado en la distancia entre
+                los puntos de la mano izquierda y la cadera. Calcula el volumen
+                basado en la velocidad de la mano derecha. & Colección de
+                puntos 3D del esqueleto del usuario. \\
+                \hline
+                Reproducción de sonido & Reproduce el sonido correspondiente al
+                tono en el que se encuentra el sistema a un volumen basado en
+                la velocidad de la mano derecha. & Velocidad de mano derecha. \\
+                \hline
+        \end{tabular}
+        \caption{Respuestas del sistema}
+        \label{tab:respuesta}
 \end{table}
 
 \section{Requisitos de Ambiente}
@@ -143,6 +174,16 @@ Guitar.
 
 \section{Arquitectura del Sistema}
 \subsection{Diagrama de Flujo de Datos}
+
+La figura \ref{fig:flujo} muestra los flujos de datos en el sistema.
+
+\begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{../imagenes/diagrama_de_flujo.png}
+        \caption{Diagrama de flujo de datos}
+        \label{fig:flujo}
+\end{figure}
+
 \subsection{Descripción de Módulos}
 \subsubsection{Módulo 1(Abreviatura)}
 \subsection{Matriz de Requisitos Funcionales y Componentes}
