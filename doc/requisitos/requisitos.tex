@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{array}
+\usepackage{hyperref}
 \usepackage[margin=25mm]{geometry}
 
 \title{Documento de Requisitos}
@@ -31,7 +32,7 @@
         de ambiente, arquitectura del sistema, requisitos del desarrollo,
         requisitos de post-desarrollo, y riesgos del proyecto. \\
         \textbf{Documentos relacionados} & Documento de Inicio de Proyecto,
-        proyecto Nombre del Sistema, versión X, fecha. \\
+        proyecto Nombre del Sistema, versión 1.1, 5/11/2013. \\
         \textbf{Autor} & Carlos Bergen Dyck y Gustav Svensk \\
         \textbf{Lectores} & Este documento está dirigido principalmente a los
         desarrolladores del proyecto, pero es de interés de todos los
@@ -72,8 +73,8 @@ calculará en base a la velocidad de la mano derecha. Los sonidos se
 reproducirán cuando la mano derecha pase sobre un área predefinida que
 simulara el área de las cuerdas de una guitarra real.  El sistema funcionará
 con un solo usuario a la vez. Deberá estar parado, de frente al Kinect y a
-una distancia de entre 0,8m  a 2.5m aproximadamente debido a las limitaciones
-técnicas del Kinect. Ademas debe existir una iluminación adecuada. Solo se
+una distancia de entre 0.8m  a 2.5m aproximadamente debido a las limitaciones
+técnicas del Kinect \cite{depth_range}. Ademas debe existir una iluminación adecuada. Solo se
 podrán tocar power chords (acordes que consisten de la nota fundamental, su
 quinta y octavas). El rango de sonidos será similar a una guitarra real
 siendo la nota fundamental más grave E1 y la más aguda E2, así cubriendo una
@@ -82,19 +83,18 @@ octava, generando un total de 12 acordes posibles en todos los semitonos.
 \subsection{Contexto}
 “Air Guitar” es un movimiento en donde se pretende tocar una guitarra.
 Usualmente estos movimientos carecen de sonido. Desde 1996 se ha realizado
-anualmente el Campeonato Mundial de Air Guitar en Finlandia.
+anualmente el Campeonato Mundial de Air Guitar en Finlandia \cite{air_guitar}.
 
 Kinect es un sensor de movimiento creado inicialmente para el Xbox 360.
 Utiliza una cámara RGB y un sensor infrarrojo para detectar la distancia de
-diferentes objetos y seguir los movimientos del cuerpo humano.
+diferentes objetos y seguir los movimientos del cuerpo humano \cite{kinect_spec}.
 
-Microsoft libero el SDK de Kinect for Windows en el 2011. Esto permitió a los
+Microsoft libero el SDK de Kinect for Windows en el 2011 \cite{kinect_release}. Esto permitió a los
 desarrolladores crear aplicaciones que usaran el Kinect en C++/CLI, C\# y
 Visual Basic .NET. Este SDK permite reconocer movimientos, gestos y comandos
-de voz. La ultima version también incluye herramientas para quitar el fondo
+de voz \cite{sdk}. La ultima version también incluye herramientas para quitar el fondo
 para obtener un efecto de pantalla verde, mejoras para escanear y modelar
-objetos 3D con Kinect Fusion y la opción para codificar en HTML5/JavaScript.
-\subsection{Referencias}
+objetos 3D con Kinect Fusion y la opción para codificar en HTML5/JavaScript \cite{kinect_new}.
 
 \section{Requisitos del Sistema}
 Esta sección describe los requisitos funcionales del sistema, sus interfaces
@@ -200,11 +200,21 @@ La figura~\ref{fig:flujo} muestra los flujos de datos en el sistema.
 \appendix 
 \newpage
 
-% \addcontentsline{toc}{section}{References}
-% \begin{thebibliography}{99}
-% \bibitem{depth_range}\textit{http://msdn.microsoft.com/en-us/library/hh973078.aspx#Depth_Ranges}
-%         Microsoft Developer Network, 30 Oct 2013
-% \end{thebibliography}
+\addcontentsline{toc}{section}{Referencias}
+\begin{thebibliography}{99}
+\bibitem{depth_range}\url{http://msdn.microsoft.com/en-us/library/hh973078.aspx#Depth_Ranges} \\
+        Microsoft Developer Network, 05 Nov 2013
+\bibitem{air_guitar}\url{https://en.wikipedia.org/wiki/Air_guitar#Contests} \\
+        Wikipedia, 05 Nov 2013
+\bibitem{kinect_spec}\url{http://msdn.microsoft.com/en-us/library/jj131033.aspx} \\
+        Microsoft Developer Network, 05 Nov 2013
+\bibitem{kinect_release}\url{http://en.wikipedia.org/wiki/Kinect#History} \\
+        Wikipedia, 05 Nov 2013
+\bibitem{sdk}\url{http://msdn.microsoft.com/en-us/library/hh855347.aspx} \\
+        Microsoft Developer Network, 05 Nov 2013
+\bibitem{kinect_new}\url{http://blogs.msdn.com/b/kinectforwindows/archive/2013/09/16/updated-sdk-with-html5-kinect-fusion-improvements-and-more.aspx} \\
+        Kinect for Windows Blog, 05 Noc 2013
+\end{thebibliography}
 
 \end{document} 
 %%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:
