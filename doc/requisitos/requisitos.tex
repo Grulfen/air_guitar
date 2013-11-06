@@ -200,19 +200,24 @@ La figura~\ref{fig:flujo} muestra los flujos de datos en el sistema.
 
 \subsection{Descripción de Módulos}
 \subsubsection{Obtener información del Kinect(IK)}
-Se obtiene la posición de los puntos del esqueleto del usuario entregados por el Kinect.
+Se obtiene la posición de los puntos del esqueleto del usuario entregados por el
+Kinect.
 \subsubsection{Calcular la posición de la guitarra(CG)}
-Con los puntos obtenidos del Kinect se calcula la posición de la guitarra con la posición de la cadera y de la mano izquierda.
+Con los puntos obtenidos del Kinect se calcula la posición de la guitarra con la
+posición de la cadera y de la mano izquierda.
 \subsection{Proyectar la guitarra sobre el usuario(PG)}
-Se proyecta un modelo 3D de la guitarra basado en la posición obtenida de la cadera y la mano izquierda.
+Se proyecta un modelo 3D de la guitarra basado en la posición obtenida de la
+cadera y la mano izquierda.
 \subsubsection{Calcular tono(CT)}
 Se calculara el tono basado en la distancia entre la cadera y la mano izquierda.
 \subsubsection{¿Está la mano derecha sobre las cuerdas?(MD)}
-Se verá si la mano derecha se encuentra sobre un área predefinida alrededor del punto de la cadera que simulara el área de las cuerdas de una guitarra real.
+Se verá si la mano derecha se encuentra sobre un área predefinida alrededor del
+punto de la cadera que simulara el área de las cuerdas de una guitarra real.
 \subsubsection{Calcular el volumen(CV)}
 Se calculara el volumen basado en la velocidad de la mano derecha.
 \subsubsection{Reproducir sonido(RS)}
-Se reproducirá el sonido correspondiente al tono calculado al volumen previamente calculado.
+Se reproducirá el sonido correspondiente al tono calculado al volumen
+previamente calculado.
 \subsubsection{Sonidos(S)}
 Una colección de sonidos de acordes de guitarra grabados previamente.
 \subsection{Matriz de Requisitos Funcionales y Componentes}
