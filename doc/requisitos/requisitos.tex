@@ -124,7 +124,7 @@ mismo. El “iniciador” es la componente externa al sistema que inicia el even
 Los parámetros son los datos asociados al evento. La respuesta es el nombre de
 una respuesta, cuya descripción está en la tabla~\ref{tab:respuesta}.
 La tabla~\ref{tab:respuesta} muestra las respuestas del sistema frente a eventos externos.
-\begin{table}[h!]
+\begin{table}[hb]
         \centering
         \begin{tabular}{|p{2cm}|p{4cm}|c|p{3cm}|p{25mm}|}
                 \hline
@@ -165,30 +165,35 @@ La tabla~\ref{tab:respuesta} muestra las respuestas del sistema frente a eventos
         \label{tab:respuesta}
 \end{table}
 
+\newpage
 \section{Requisitos de Ambiente}
 Esta sección describe el hardware y software relevante para el sistema Air
 Guitar.
 \subsection{Requisitos del Ambiente de Desarrollo}
 \subsubsection{Hardware de Desarrollo}
+\label{subsubsec:hardware}
 
 \begin{itemize}
-	\item Kinect para Windows, utilizado para obtener las posiciones de las manos y el cuerpo del usuario.
-    \item Windows 7, Windows 8, Windows Embedded Standard 7, o Windows Embedded POSReady 7.
-    \item Procesador 32 bit (x86) o 64 bit (x64) 
-    \item Procesador Dual-core 2.66-GHz o más rápido. 
-    \item Bus USB 2.0 dedicado
-    \item 2 GB RAM
+        \item Kinect para Windows, utilizado para obtener las posiciones de las
+                manos y el cuerpo del usuario.
+        \item Windows 7, Windows 8, Windows Embedded Standard 7, o Windows
+                Embedded POSReady 7.
+        \item Procesador 32 bit (x86) o 64 bit (x64) 
+        \item Procesador Dual-core 2.66-GHz o más rápido. 
+        \item Bus USB 2.0 dedicado
+        \item 2 GB RAM
 \end{itemize}
 
 \subsubsection{Software de Desarrollo}
-
-\section{Arquitectura del Sistema}
+\label{subsubsec:software}
 
 \begin{itemize}
 	\item Se programara en el lenguaje C++ con Visual Studio.
 	\item Se utilizara el SDK 1.8 de Kinect for Windows para la comunicación con entre el dispositivo Kinect y la aplicación. 
 	\item Se utilizara OpenFrameworks para la reproducción del audio y la proyección de la guitarra.
 \end{itemize}
+
+\section{Arquitectura del Sistema}
 
 \subsection{Diagrama de Flujo de Datos}
 
@@ -222,14 +227,15 @@ Se calculara el volumen basado en la velocidad de la mano derecha.
 \subsubsection{Reproducir sonido(RS)}
 Se reproducirá el sonido correspondiente al tono calculado al volumen
 previamente calculado.
-\subsubsection{Sonidos(S)}
+\subsubsection{Sonidos(SO)}
 Una colección de sonidos de acordes de guitarra grabados previamente.
 \subsection{Matriz de Requisitos Funcionales y Componentes}
 \begin{table}[h!]
         \centering
-        \begin{tabular}{|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
                 \hline
-                 & \textbf{IK} & \textbf{CG} & \textbf{PG} & \textbf{CT} & \textbf{MD} & \textbf{CV} & \textbf{RS} & \textbf{S} \\
+                 & \textbf{IK} & \textbf{CG} & \textbf{PG} & \textbf{CT} &
+                 \textbf{MD} & \textbf{CV} & \textbf{RS} & \textbf{SO} \\
                 \hline
                 \textbf{RF1} & X & & & & & & & \\
                 \hline
@@ -248,10 +254,43 @@ Una colección de sonidos de acordes de guitarra grabados previamente.
 
 \section{Gestión de Riesgos}
 \subsection{Supuestos}
+\begin{itemize}
+        \item La precisión y el tiempo de respuesta del Kinect será suficiente
+                para dar una experiencia similar a una guitarra real
+        \item La iluminación donde se instala el sistema será el en rango donde
+                funciona el Kinect
+\end{itemize}
+
 \subsection{Dependencias}
+\begin{itemize}
+        \item Disponibilidad de un Kinect for Windows
+        \item Disponibilidad de un proyector
+        \item Un logar con buena iluminación y suficiente espacio para hacer
+                pruebas
+\end{itemize}
+
 \subsection{Restricciones}
+\begin{itemize}
+        \item Hardware necesario según~\ref{subsubsec:hardware}
+        \item Software necesario según~\ref{subsubsec:software}
+\end{itemize}
+
 \subsection{Riesgos}
-\subsubsection{Riesgo 1}
+A continuación se indican los principales riesgos del proyecto.
+\subsubsection{Disponibilidad de un Kinect}
+Intentamos a planear los tiempos cuando necesitamos un Kinect para reservarlo.
+También intentamos avanzar el proyecto en áreas que no dependen del Kinect.
+\subsubsection{Precisión de Kinect no suficiente}
+Si la precisión y tiempo de respuesta del Kinect no son suficientes podemos
+expandir la zona de reproducción del sonido.
+\subsubsection{El procesamiento tarda demasiado}
+Si el procesamiento para los cálculos de tono y volumen tarda demasiado tiempo
+buscamos algoritmos mas rápidos o usamos un volumen constante.
+\subsubsection{Intentar hacer Stagedive}
+Si se tiene ganas de hacer Stagedive recomendamos tener una audiencia o colchón
+presente.
+\subsubsection{Falta de tiempo para el proyecto}
+Si falta tiempo para el proyecto no hacemos la proyección de la guitarra.
 
 \newpage 
 \appendix 
