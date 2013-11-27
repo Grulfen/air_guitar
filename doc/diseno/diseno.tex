@@ -63,14 +63,49 @@ arquitectura inicial. A la luz de un trabajo de diseño más detallado, aquí se
 presenta la arquitectura definitiva, que incluye más detalle y posiblemente
 algunos cambios.
 \subsection{Diagrama de Contexto}
+El diagrama de contexto se puede ver en figura~\ref{fig:contexto}.
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{../imagenes/diagrama_de_contexto.png}
+        \caption{Diagrama de Contexto}
+        \label{fig:contexto}
+\end{figure}
 
 \subsection{Diagrama de Arquitectura}
+El diagrama de arquitectura se puede ver en figura~\ref{fig:arquitectura}
+\begin{figure}[h]
+        \centering
+        \includegraphics[width=0.8\textwidth]{../imagenes/diagrama_de_arquitectura.png}
+        \caption{Diagrama de Arquitectura}
+        \label{fig:arquitectura}
+\end{figure}
 
 \subsection{Enumeración de Módulos}
+El cuadro~\ref{tab:modulos} muestra los módulos de la
+figura~\ref{fig:arquitectura}. Por cada módulo se entrega un breve párrafo
+descriptivo de su propósito, además de la sección en donde se especifica el
+módulo en detalle.
 
+\begin{table}[h]
+        \centering
+        \begin{tabular}{|p{3cm}|l|p{15mm}|}
+                \hline
+                \textbf{Módulo} & \textbf{Propósito} & \textbf{Sección} \\
+                \hline
+                Módulo de Captura & &\ref{sec:captura} \\
+                \hline
+                Módulo de Procesamiento & &\ref{sec:procesamiento}\\
+                \hline
+                Módulo de Presentación & &\ref{sec:presentacion}\\
+                \hline
+        \end{tabular}
+        \caption{Módulos de la arquitectura del sistema}
+        \label{tab:modulos}
+\end{table}
 \subsection{Matriz de Requisitos Funcionales y Módulos}
 
 \section{Módulo de Captura}
+\label{sec:captura}
 \subsection{Definición de Módulo}
 \begin{tabular}{p{2cm} l}
         \textbf{Propósito} & \\
@@ -151,6 +186,7 @@ no las pueden usar.
 
 
 \section{Módulo de Procesamiento}
+\label{sec:procesamiento}
 \subsection{Definición de Módulo}
 \begin{tabular}{p{2cm} l}
         \textbf{Propósito} & \\
@@ -231,6 +267,7 @@ no las pueden usar.
 
 
 \section{Módulo de Presentación}
+\label{sec:presentacion}
 \subsection{Definición de Módulo}
 \begin{tabular}{p{2cm} l}
         \textbf{Propósito} & \\
