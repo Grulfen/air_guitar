@@ -1,0 +1,41 @@
+\contentsline {section}{\numberline {1}Prefacio}{2}{section.1}
+\contentsline {section}{\numberline {2}Historia del Documento}{2}{section.2}
+\contentsline {section}{\numberline {3}Arquitectura Revisada del Sistema}{4}{section.3}
+\contentsline {subsection}{\numberline {3.1}Diagrama de Contexto}{4}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Diagrama de Arquitectura}{4}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Enumeraci\IeC {\'o}n de M\IeC {\'o}dulos}{4}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Matriz de Requisitos Funcionales y M\IeC {\'o}dulos}{5}{subsection.3.4}
+\contentsline {section}{\numberline {4}M\IeC {\'o}dulo de Captura}{5}{section.4}
+\contentsline {subsection}{\numberline {4.1}Definici\IeC {\'o}n de M\IeC {\'o}dulo}{5}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Declaraciones P\IeC {\'u}blicas}{5}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Constantes P\IeC {\'u}blicas}{5}{subsubsection.4.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2}Tipos de Datos P\IeC {\'u}blicos}{5}{subsubsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.3}Variables P\IeC {\'u}blicos}{5}{subsubsection.4.2.3}
+\contentsline {subsection}{\numberline {4.3}Funciones P\IeC {\'u}blicas}{5}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Estructuras de Datos}{5}{subsection.4.4}
+\contentsline {subsection}{\numberline {4.5}Funciones Privadas}{5}{subsection.4.5}
+\contentsline {subsection}{\numberline {4.6}Dise\IeC {\~n}o Detallado de las Funciones}{6}{subsection.4.6}
+\contentsline {subsubsection}{\numberline {4.6.1}Funci\IeC {\'o}n 1}{6}{subsubsection.4.6.1}
+\contentsline {section}{\numberline {5}M\IeC {\'o}dulo de Procesamiento}{6}{section.5}
+\contentsline {subsection}{\numberline {5.1}Definici\IeC {\'o}n de M\IeC {\'o}dulo}{6}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Declaraciones P\IeC {\'u}blicas}{6}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Constantes P\IeC {\'u}blicas}{6}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Tipos de Datos P\IeC {\'u}blicos}{6}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}Variables P\IeC {\'u}blicos}{6}{subsubsection.5.2.3}
+\contentsline {subsection}{\numberline {5.3}Funciones P\IeC {\'u}blicas}{6}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Estructuras de Datos}{7}{subsection.5.4}
+\contentsline {subsection}{\numberline {5.5}Funciones Privadas}{7}{subsection.5.5}
+\contentsline {subsection}{\numberline {5.6}Dise\IeC {\~n}o Detallado de las Funciones}{7}{subsection.5.6}
+\contentsline {subsubsection}{\numberline {5.6.1}Funci\IeC {\'o}n 1}{7}{subsubsection.5.6.1}
+\contentsline {section}{\numberline {6}M\IeC {\'o}dulo de Presentaci\IeC {\'o}n}{7}{section.6}
+\contentsline {subsection}{\numberline {6.1}Definici\IeC {\'o}n de M\IeC {\'o}dulo}{7}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Declaraciones P\IeC {\'u}blicas}{7}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Constantes P\IeC {\'u}blicas}{7}{subsubsection.6.2.1}
+\contentsline {subsubsection}{\numberline {6.2.2}Tipos de Datos P\IeC {\'u}blicos}{8}{subsubsection.6.2.2}
+\contentsline {subsubsection}{\numberline {6.2.3}Variables P\IeC {\'u}blicos}{8}{subsubsection.6.2.3}
+\contentsline {subsection}{\numberline {6.3}Funciones P\IeC {\'u}blicas}{8}{subsection.6.3}
+\contentsline {subsection}{\numberline {6.4}Estructuras de Datos}{8}{subsection.6.4}
+\contentsline {subsection}{\numberline {6.5}Funciones Privadas}{8}{subsection.6.5}
+\contentsline {subsection}{\numberline {6.6}Dise\IeC {\~n}o Detallado de las Funciones}{8}{subsection.6.6}
+\contentsline {subsubsection}{\numberline {6.6.1}Funci\IeC {\'o}n 1}{8}{subsubsection.6.6.1}
+\contentsline {section}{Referencias}{9}{subsubsection.6.6.1}
