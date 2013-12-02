@@ -7,6 +7,7 @@
 \usepackage{listings}
 \usepackage{array}
 \usepackage{hyperref}
+\usepackage{tabularx}
 \usepackage[margin=25mm]{geometry}
 
 \title{Documento de Diseño de Air Guitar}
@@ -88,7 +89,7 @@ módulo en detalle.
 
 \begin{table}[h]
         \centering
-        \begin{tabular}{|p{3cm}|l|p{15mm}|}
+        \begin{tabularx}{\textwidth}{|p{3cm}| X |p{15mm}|}
                 \hline
                 \textbf{Módulo} & \textbf{Propósito} & \textbf{Sección} \\
                 \hline
@@ -98,7 +99,7 @@ módulo en detalle.
                 \hline
                 Módulo de Presentación & Se encarga de dibujar las pantallas de la aplicación y la guitarra asi como reproducir los sonidos de las notas tocadas. &\ref{sec:presentacion}\\
                 \hline
-        \end{tabular}
+        \end{tabularx}
         \caption{Módulos de la arquitectura del sistema}
         \label{tab:modulos}
 \end{table}
@@ -107,14 +108,14 @@ módulo en detalle.
 \section{Módulo de Captura}
 \label{sec:captura}
 \subsection{Definición de Módulo}
-\begin{tabular}{p{2cm} l}
+\begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & Obtener información del Kinect sobre el esqueleto del usuario.\\
         \textbf{Alcance} & Obtiene la posición de las manos y de la cadera.\\
         \textbf{Dependencias} & Depende de la información recibida del Kinect.\\
         \textbf{Supuestos} & Tener Kinect. \\
         \textbf{Restricciones} & Usar PC con Windows. Estar a una distancia aceptable del Kinect y que exista una iluminación adecuada.\\
         \textbf{Estructura General} & Obtiene las posiciones de las manos y la cadera y entrega estos puntos al modulo de procesamiento.\\
-\end{tabular}
+\end{tabularx}
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
 otros módulos.
@@ -171,7 +172,7 @@ no las pueden usar.
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
 \subsubsection{Función 1}
-\begin{tabular}{p{2cm} l}
+\begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & \\
         \textbf{Dependencias} & \\
         \textbf{Prototipo} & \\
@@ -182,20 +183,20 @@ no las pueden usar.
 
         \textbf{Retorno} & \\
         \textbf{Proceso} & Pseudocodigo \\
-\end{tabular}
+\end{tabularx}
 
 
 \section{Módulo de Procesamiento}
 \label{sec:procesamiento}
 \subsection{Definición de Módulo}
-\begin{tabular}{p{2cm} l}
+\begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & Calcular el tono y volumen y ver si una nota fue tocada.\\
-        \textbf{Alcance} & Calcula el tono basado en la distancia de la mano izquierda y la cadera.Calcula el volumen basado en la velocidad de la mano derecha y ve si una nota fue tocada si la mano derecha se encuentra sobre un área predefinida.\\
+        \textbf{Alcance} & Calcula el tono basado en la distancia de la mano izquierda y la cadera. Calcula el volumen basado en la velocidad de la mano derecha y ve si una nota fue tocada si la mano derecha se encuentra sobre un área predefinida.\\
         \textbf{Dependencias} & Depende del modulo de captura.\\
         \textbf{Supuestos} & Un funcionamiento correcto del modulo de captura.\\
         \textbf{Restricciones} & Existira un rango de tonos disponibles para tocar y tendra un limite de volumen.\\
         \textbf{Estructura General} & Recibe los puntos obtenidos del modulo de captura. Entrega el tono y volumen de la nota actual y si esta debe ser reproducida. Entrega la posición donde debe ser proyectada la guitarra. \\
-\end{tabular}
+\end{tabularx}
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
 otros módulos.
@@ -252,7 +253,7 @@ no las pueden usar.
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
 \subsubsection{Función 1}
-\begin{tabular}{p{2cm} l}
+\begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & \\
         \textbf{Dependencias} & \\
         \textbf{Prototipo} & \\
@@ -263,20 +264,20 @@ no las pueden usar.
 
         \textbf{Retorno} & \\
         \textbf{Proceso} & Pseudocodigo \\
-\end{tabular}
+\end{tabularx}
 
 
 \section{Módulo de Presentación}
 \label{sec:presentacion}
 \subsection{Definición de Módulo}
-\begin{tabular}{p{2cm} l}
+\begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & Se encarga de dibujar las pantallas de la aplicación y la guitarra asi como reproducir los sonidos de las notas tocadas.\\
         \textbf{Alcance} & Reproduce el sonido correspondiente a la nota calculada y proyecta un modelo 3D de una guitarra sobre el usuario.\\
         \textbf{Dependencias} & Depende del modulo de procesamiento.\\
         \textbf{Supuestos} & Tener una tarjeta gráfica apropiada asi como una tarjeta de sonido.\\
         \textbf{Restricciones} & Reproducira los sonidos correspondientes definidos anteriormente.\\
         \textbf{Estructura General} & Recibe la posición de la guitarra, el tono y volumen de la nota y si esta fue tocada. Dibuja en la pantalla la imagen del usuario con un modelo 3D de una guitarra proyectada y reproduce el sonido apropiado.\\
-\end{tabular}
+\end{tabularx}
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
 otros módulos.
@@ -333,7 +334,7 @@ no las pueden usar.
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
 \subsubsection{Función 1}
-\begin{tabular}{p{2cm} l}
+\begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & \\
         \textbf{Dependencias} & \\
         \textbf{Prototipo} & \\
@@ -344,7 +345,7 @@ no las pueden usar.
 
         \textbf{Retorno} & \\
         \textbf{Proceso} & Pseudocodigo \\
-\end{tabular}
+\end{tabularx}
 
 \appendix 
 \newpage
