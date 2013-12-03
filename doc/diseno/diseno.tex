@@ -168,7 +168,7 @@ otros módulos.
         \hline
         \textbf{Nombre del \mbox{tipo}} & \textbf{Descripción} \\
         \hline
-         & \\
+        & \\
         \hline
 \end{tabular}
 \subsubsection{Variables Públicos}
@@ -192,16 +192,23 @@ tienen acceso a la funcionalidad de este módulo mediante estas funciones.
         \hline
 \end{tabular}
 \subsection{Estructuras de Datos}
+\textbf{HandHip}
+\begin{itemize}
+        \item hipPosition
+        \item playingHandPosition
+        \item chordHandPosition 
+\end{itemize}
 \subsection{Funciones Privadas}
 Las siguientes funciones auxiliares son privadas de este módulo; otros módulos
-no las pueden usar.
-~\\
+no las pueden usar.~\\
 
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
         \hline
-         & \\
+        getSkeleton & Obtiene el esqueleto del usuario del Kinect \\
+        \hline
+        formHandHip & Crea una estructura de datos HandHip con las posiciones de los manos y la cadera \\
         \hline
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
@@ -218,6 +225,7 @@ no las pueden usar.
         \textbf{Retorno} & \\
         \textbf{Proceso} & Pseudocodigo \\
 \end{tabularx}
+
 
 
 \section{Módulo de Procesamiento}
@@ -301,6 +309,7 @@ no las pueden usar.
 \end{tabularx}
 
 
+
 \section{Módulo de Presentación}
 \label{sec:presentacion}
 \subsection{Definición de Módulo}
@@ -382,6 +391,7 @@ no las pueden usar.
 \end{tabularx}
 
 \newpage
+
 \section{Diseño de Interfaces}
 \subsection{Modelo de Navegación}
 El modelo de navegación es muy simple porque sólo hay una interfaz
