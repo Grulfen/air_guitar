@@ -93,18 +93,52 @@ módulo en detalle.
                 \hline
                 \textbf{Módulo} & \textbf{Propósito} & \textbf{Sección} \\
                 \hline
-                Módulo de Captura & Obtener información del Kinect sobre el esqueleto del usuario. &\ref{sec:captura} \\
+                Módulo de Captura (CAPT) & Obtener información del Kinect sobre el esqueleto del usuario. &\ref{sec:captura} \\
                 \hline
-                Módulo de Procesamiento & Calcular el tono y volumen y ver si una nota fue tocada. &\ref{sec:procesamiento}\\
+                Módulo de Procesamiento (PROC) & Calcular el tono y volumen y ver si una nota fue tocada. &\ref{sec:procesamiento}\\
                 \hline
-                Módulo de Presentación & Se encarga de dibujar las pantallas de la aplicación y la guitarra asi como reproducir los sonidos de las notas tocadas. &\ref{sec:presentacion}\\
+                Módulo de Presentación (PRES) & Se encarga de dibujar las pantallas de la aplicación y la guitarra asi como reproducir los sonidos de las notas tocadas. &\ref{sec:presentacion}\\
                 \hline
         \end{tabularx}
         \caption{Módulos de la arquitectura del sistema}
         \label{tab:modulos}
 \end{table}
-\subsection{Matriz de Requisitos Funcionales y Módulos}
 
+\subsection{Matriz de Requisitos Funcionales y Módulos}
+En tabla~\ref{tab:req_func} están los requisitos funcionales del sistema y en
+tabla~\ref{tab:matriz} la matriz de requisitos funcionales y módulos.
+\begin{table}[hpb]
+        \centering
+        \begin{tabularx}{0.8\textwidth}{p{8mm} X}
+                \textbf{RF1} & Obtener la posición de las manos y la caldera \\
+                \textbf{RF2} & Obtener la velocidad de la mano derecha \\
+                \textbf{RF3} & Calcular tono y volumen en base a la posición y velocidad de las manos \\
+                \textbf{RF4} & Reproducir sonido a base al tono y volumen \\
+                \textbf{RF5} & Proyectar modelo 3D de guitarra \\
+        \end{tabularx}
+        \caption{Requisitos Funcionales}
+        \label{tab:req_func}
+\end{table}
+\begin{table}[hpb]
+        \centering
+        \begin{tabular}{|p{8mm}|c|c|c|}
+                \hline
+                & \textbf{CAPT} & \textbf{PROC} & \textbf{PRES} \\
+                \hline
+                \textbf{RF1} & X & & \\
+                \hline
+                \textbf{RF2} & & X & \\
+                \hline
+                \textbf{RF3} & & X & \\
+                \hline
+                \textbf{RF4} & & & X \\
+                \hline
+                \textbf{RF5} & & & X \\
+                \hline
+        \end{tabular}
+        \caption{Matriz de Requisitos Funcionales y Módulos}
+        \label{tab:matriz}
+\end{table}
 \section{Módulo de Captura}
 \label{sec:captura}
 \subsection{Definición de Módulo}
@@ -347,11 +381,44 @@ no las pueden usar.
         \textbf{Proceso} & Pseudocodigo \\
 \end{tabularx}
 
-\appendix 
 \newpage
+\section{Diseño de Interfaces}
+\subsection{Modelo de Navegación}
+El modelo de navegación es muy simple porque sólo hay una interfaz
+(figura~\ref{fig:navegacion}).
 
-\addcontentsline{toc}{section}{Referencias}
-\begin{thebibliography}{99}
+\begin{figure}[hb]
+        \centering
+        \includegraphics[width=0.7\textwidth]{../imagenes/modelo_de_navegacion.png}
+        \caption{Modelo de Navegación}
+        \label{fig:navegacion}
+\end{figure}
+\subsection{Prototipos de Interfaces Usuarias}
+\subsubsection{Prototipo Interfaz Principal}
+En figura~\ref{fig:ui} se puede ver la interfaz principal. En el programa final
+el fondo será el usuario con una guitara sobrepuesta.
+
+\begin{tabularx}{\textwidth}{X X X X}
+        \textbf{Evento} & \textbf{Interacción} & \textbf{Acción} & \textbf{Objeto afectado} \\
+        Cambio de volumen & El usuario mueve el slider ``Volumen'' & Se
+        modifica el volumen & Módulo de Presentación \\
+        Cambio de guitarra & El usuario aprieta el botón ``Acustic'' o
+        ``Electric'' & Se cambia el modelo de la guitarra y el sonido & Módulo
+        de Presentación \\
+
+
+\end{tabularx}
+\begin{figure}[hb]
+        \centering
+        \includegraphics[width=\textwidth]{../imagenes/ui.png}
+        \caption{La interfaz principal}
+        \label{fig:ui}
+\end{figure}
+\newpage
+\appendix 
+
+% \addcontentsline{toc}{section}{Referencias}
+% \begin{thebibliography}{99}
 % \bibitem{depth_range}\url{http://msdn.microsoft.com/en-us/library/hh973078.aspx#Depth_Ranges} \\
 %         Microsoft Developer Network, 05 Nov 2013
 % \bibitem{air_guitar}\url{https://en.wikipedia.org/wiki/Air_guitar#Contests} \\
@@ -364,7 +431,7 @@ no las pueden usar.
 %         Microsoft Developer Network, 05 Nov 2013
 % \bibitem{kinect_new}\url{http://blogs.msdn.com/b/kinectforwindows/archive/2013/09/16/updated-sdk-with-html5-kinect-fusion-improvements-and-more.aspx} \\
 %         Kinect for Windows Blog, 05 Noc 2013
-\end{thebibliography}
+% \end{thebibliography}
 
 \end{document} 
 %%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:
