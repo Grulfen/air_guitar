@@ -5,10 +5,13 @@
 \usepackage{epstopdf}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{textcomp}
 \usepackage{array}
 \usepackage{hyperref}
 \usepackage{tabularx}
 \usepackage[margin=25mm]{geometry}
+
+\lstset{language=c++}
 
 \title{Documento de Diseño de Air Guitar}
 \author{Carlos Bergen Dyck \and Gustav Svensk}
@@ -153,30 +156,22 @@ tabla~\ref{tab:matriz} la matriz de requisitos funcionales y módulos.
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
 otros módulos.
-\subsubsection{Constantes Públicas}
-\begin{tabular}{| p{30mm} | p{10cm} |}
-        \hline
-        \textbf{Nombre de la \mbox{constante}} & \textbf{Descripción} \\
-        \hline
-         & \\
-        \hline
-\end{tabular}
+% \subsubsection{Constantes Públicas}
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{constante}} & \textbf{Descripción} \\
+%         \hline
+%          & \\
+%         \hline
+% \end{tabular}
                 
 
-\subsubsection{Tipos de Datos Públicos}
-\begin{tabular}{| p{30mm} | p{10cm} |}
-        \hline
-        \textbf{Nombre del \mbox{tipo}} & \textbf{Descripción} \\
-        \hline
-        & \\
-        \hline
-\end{tabular}
 \subsubsection{Variables Públicos}
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
         \textbf{Nombre de la \mbox{variable}} & \textbf{Descripción} \\
         \hline
-         & \\
+        playerID & El ID del usuario que esta tocando, obtenido del Kinect \\
         \hline
 \end{tabular}
 \subsection{Funciones Públicas}
@@ -188,11 +183,12 @@ tienen acceso a la funcionalidad de este módulo mediante estas funciones.
         \hline
         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
         \hline
-         & \\
+        getHandsHip & Retorna un tipo HandsHip con las posiciones de los manos y
+        la cadera del usuario \\
         \hline
 \end{tabular}
 \subsection{Estructuras de Datos}
-\textbf{HandHip}
+\textbf{HandsHip}
 \begin{itemize}
         \item hipPosition
         \item playingHandPosition
@@ -208,25 +204,57 @@ no las pueden usar.~\\
         \hline
         getSkeleton & Obtiene el esqueleto del usuario del Kinect \\
         \hline
-        formHandHip & Crea una estructura de datos HandHip con las posiciones de los manos y la cadera \\
-        \hline
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
-\subsubsection{Función 1}
+\subsubsection{Función getSkeleton}
 \begin{tabularx}{\textwidth}{p{25mm} X}
-        \textbf{Propósito} & \\
-        \textbf{Dependencias} & \\
-        \textbf{Prototipo} & \\
+        \textbf{Propósito} & Obtiene el esqueleto del usuario que esta tocando del Kinect \\
+        \textbf{Dependencias} & Un Kinect conectado \\
+        \textbf{Prototipo} & \lstinline{*Skeleton getSkeleton(int playerID);}\\
         \textbf{Parámetro} & \textbf{Explicación} \\
         \begin{tabular}{p{2cm} l}
-                Parámetro 1 & \\
-        \end{tabular}
+                playerID & El identificador del usuario que esta tocando
+        \end{tabular} \\
 
-        \textbf{Retorno} & \\
-        \textbf{Proceso} & Pseudocodigo \\
+        \textbf{Retorno} & Puntero al esqueleto del usuario con ID playerID o NULL en caso de error\\
+        \textbf{Proceso} & 
+        \begin{lstlisting}^^J
+                if(kinect::frameReady)\{^^J
+                \      skeleton = kinect::getNextFrame->skeleton_data[player_id];^^J
+                \      return skeleton;^^J
+                \}^^J
+                return NULL;^^J
+        \end{lstlisting} \\
 \end{tabularx}
 
+\subsubsection{Función getHandsHip}
+\begin{tabularx}{\textwidth}{p{25mm} X}
+        \textbf{Propósito} & Crea un estructura de datos HandsHip que contiene
+        las posiciones de los manos y cadera del usuario\\
+        \textbf{Dependencias} & getSkeleton\\
+        \textbf{Prototipo} & \lstinline{HandsHip *formHandsHip(int playerID, int rightHanded=1);}\\
+        \textbf{Parámetro} & \textbf{Explicación} \\
+        \begin{tabular}{p{2cm} l}
+                playerID & El identificador del usuario que esta tocando \\
+                rightHanded & Indica si el usuario esta diestro o no \\
+        \end{tabular} \\
 
+        \textbf{Retorno} & Puntero a la estructura de datos HandsHip creado\\
+        \textbf{Proceso} & 
+        \begin{lstlisting}^^J
+        skeleton = getSkeleton(playerID);^^J
+        HandsHip *handsHip = new HandsHip;^^J
+        handsHip->hip = skeleton->hipPosition;^^J
+        if(rightHanded == 0)\{^^J
+        \       handsHip->playingHand = skeleton->leftHandPosition;^^J
+        \       handsHip->chordHand = skeleton->rightHandPosition;^^J
+        \} else \{^^J
+        \       handsHip->playingHand = skeleton->rightHandPosition;^^J
+        \       handsHip->chordHand = skeleton->leftHandPosition;^^J
+        \}^^J
+        return handship;
+        \end{lstlisting} \\
+\end{tabularx}
 
 \section{Módulo de Procesamiento}
 \label{sec:procesamiento}
