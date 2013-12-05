@@ -156,15 +156,6 @@ tabla~\ref{tab:matriz} la matriz de requisitos funcionales y módulos.
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
 otros módulos.
-% \subsubsection{Constantes Públicas}
-% \begin{tabular}{| p{30mm} | p{10cm} |}
-%         \hline
-%         \textbf{Nombre de la \mbox{constante}} & \textbf{Descripción} \\
-%         \hline
-%          & \\
-%         \hline
-% \end{tabular}
-                
 
 \subsubsection{Variables Públicos}
 \begin{tabular}{| p{30mm} | p{10cm} |}
@@ -173,7 +164,16 @@ otros módulos.
         \hline
         playerID & El ID del usuario que esta tocando, obtenido del Kinect \\
         \hline
+        resolution & La resolución del Kinect\\
+        \hline
 \end{tabular}
+\subsubsection{Estructuras de Datos}
+\textbf{HandsHip}
+\begin{itemize}
+        \item hipPosition
+        \item playingHandPosition
+        \item chordHandPosition 
+\end{itemize}
 \subsection{Funciones Públicas}
 Las siguientes funciones son accesibles desde otros módulos. Otros módulos
 tienen acceso a la funcionalidad de este módulo mediante estas funciones.
@@ -186,14 +186,9 @@ tienen acceso a la funcionalidad de este módulo mediante estas funciones.
         getHandsHip & Retorna un tipo HandsHip con las posiciones de los manos y
         la cadera del usuario \\
         \hline
+        getNextImageFrame & Retorna el siguiente frame de imagen del Kinect \\
+        \hline
 \end{tabular}
-\subsection{Estructuras de Datos}
-\textbf{HandsHip}
-\begin{itemize}
-        \item hipPosition
-        \item playingHandPosition
-        \item chordHandPosition 
-\end{itemize}
 \subsection{Funciones Privadas}
 Las siguientes funciones auxiliares son privadas de este módulo; otros módulos
 no las pueden usar.~\\
@@ -253,6 +248,22 @@ no las pueden usar.~\\
         \       handsHip->chordHand = skeleton->leftHandPosition;^^J
         \}^^J
         return handship;
+        \end{lstlisting} \\
+\end{tabularx}
+
+\subsubsection{Función getNextImageFrame}
+\begin{tabularx}{\textwidth}{p{25mm} X}
+        \textbf{Propósito} & Obtiene el frame de imagen del Kinect \\
+        \textbf{Dependencias} & Un Kinect conectado \\
+        \textbf{Prototipo} & \lstinline{*ImageFrame getNextImageFrame();}\\
+        \textbf{Retorno} & Puntero al frame de imagen \\
+        \textbf{Proceso} & 
+        \begin{lstlisting}^^J
+                if(kinect::frameReady)\{^^J
+                \      imageFrame = kinect::getNextImageFrame()^^J
+                \      return imageFrame;^^J
+                \}^^J
+                return NULL;^^J
         \end{lstlisting} \\
 \end{tabularx}
 
@@ -455,12 +466,15 @@ no las pueden usar.
 \label{sec:presentacion}
 \subsection{Definición de Módulo}
 \begin{tabularx}{\textwidth}{p{25mm} X}
-        \textbf{Propósito} & Se encarga de dibujar las pantallas de la aplicación y la guitarra asi como reproducir los sonidos de las notas tocadas.\\
+        \textbf{Propósito} & Se encarga de dibujar las pantallas de la aplicación y la guitarra así como reproducir los sonidos de las notas tocadas.\\
         \textbf{Alcance} & Reproduce el sonido correspondiente a la nota calculada y proyecta un modelo 3D de una guitarra sobre el usuario.\\
-        \textbf{Dependencias} & Depende del modulo de procesamiento.\\
-        \textbf{Supuestos} & Tener una tarjeta gráfica apropiada asi como una tarjeta de sonido.\\
-        \textbf{Restricciones} & Reproducira los sonidos correspondientes definidos anteriormente.\\
-        \textbf{Estructura General} & Recibe la posición de la guitarra, el tono y volumen de la nota y si esta fue tocada. Dibuja en la pantalla la imagen del usuario con un modelo 3D de una guitarra proyectada y reproduce el sonido apropiado.\\
+        \textbf{Dependencias} & Depende del modulo de procesamiento y captura.\\
+        \textbf{Supuestos} & Tener una tarjeta gráfica apropiada así como una tarjeta de sonido.\\
+        \textbf{Restricciones} & Reproducir los sonidos correspondientes definidos anteriormente.\\
+        \textbf{Estructura General} & Recibe la posición de la guitarra, el
+        tono y volumen de la nota y si esta fue tocada. Dibuja en la pantalla
+        la imagen del usuario con un modelo 3D de una guitarra proyectada y
+        reproduce el sonido apropiado.\\
 \end{tabularx}
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
@@ -475,49 +489,81 @@ otros módulos.
 \end{tabular}
                 
 
-\subsubsection{Tipos de Datos Públicos}
-\begin{tabular}{| p{30mm} | p{10cm} |}
-        \hline
-        \textbf{Nombre del \mbox{tipo}} & \textbf{Descripción} \\
-        \hline
-         & \\
-        \hline
-\end{tabular}
 \subsubsection{Variables Públicos}
+\subsubsection{Estructuras de Datos}
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
         \textbf{Nombre de la \mbox{variable}} & \textbf{Descripción} \\
         \hline
-         & \\
+        \texttt{guitar\_type} & Que tipo de guitarra que esta tocando el usuario ahora\\
         \hline
 \end{tabular}
 \subsection{Funciones Públicas}
 Las siguientes funciones son accesibles desde otros módulos. Otros módulos
-tienen acceso a la funcionalidad de este módulo mediante estas funciones.
-~\\
+tienen acceso a la funcionalidad de este módulo mediante estas funciones.~\\
 
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
         \hline
-         & \\
+        drawImage & Pinta la imagen del Kinect al fondo \\
+        \hline
+        drawGuitar & Pinta la guitarra sobre el usuario \\
+        \hline
+        playTone & Toca un tono \\
         \hline
 \end{tabular}
-\subsection{Estructuras de Datos}
+
 \subsection{Funciones Privadas}
 Las siguientes funciones auxiliares son privadas de este módulo; otros módulos
-no las pueden usar.
-~\\
+no las pueden usar.~\\
 
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
         \hline
-         & \\
+        calculateGuitarPosition & Calcula la posición de la guitarra en base a la cadera y longitud de guitarra \\
         \hline
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
-\subsubsection{Función 1}
+\subsubsection{drawImage}
+\begin{tabularx}{\textwidth}{p{25mm} X}
+        \textbf{Propósito} & Pinta la imagen obtenido del Kinect al fondo\\
+        \textbf{Dependencias} & openFrameworks \\
+        \textbf{Prototipo} & \lstinline{void drawImage(ImageFrame *image);}\\
+        \textbf{Parámetro} & \textbf{Explicación} \\
+        \begin{tabular}{p{2cm} l}
+               image & La imagen a pintar, obtenido del modulo de captura\\
+        \end{tabular}\\
+
+        \textbf{Retorno} & Nada\\
+        \textbf{Proceso} & 
+        \begin{lstlisting}^^J
+        ofImage tmpImage = ofImage(image);^^J
+                tmpImage.draw(0,0);^^J
+        \end{lstlisting}
+
+\end{tabularx}
+\subsubsection{drawGuitar}
+\begin{tabularx}{\textwidth}{p{25mm} X}
+        \textbf{Propósito} & Pinta la guitarra sobre la imagen del usuario\\
+        \textbf{Dependencias} & openFrameworks y calculateGuitarPosition\\
+        \textbf{Prototipo} & void drawGuitar(int x1=-1, int y1 = -1, int x2=-1, int y2=-1)\\
+        \textbf{Parámetro} & \textbf{Explicación} \\
+        \begin{tabular}{p{2cm} l}
+                x1 & Coordenada x donde se pintará la base de la guitarra, si es negativo se calcula las posiciones\\ 
+                y1 & Coordenada y donde se pintará la base de la guitarra, si es negativo se calcula las posiciones\\ 
+                x2 & Coordenada x donde se pintará la cabeza de la guitarra, si es negativo se calcula las posiciones\\ 
+                y2 & Coordenada y donde se pintará la cabeza de la guitarra, si es negativo se calcula las posiciones\\ 
+        \end{tabular}\\
+
+        \textbf{Retorno} & Nada \\
+        \textbf{Proceso} & 
+        \begin{lstlisting}^^J
+                if(x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0)^^J
+        \end{lstlisting}
+\end{tabularx}
+\subsubsection{drawImage}
 \begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & \\
         \textbf{Dependencias} & \\
@@ -525,8 +571,7 @@ no las pueden usar.
         \textbf{Parámetro} & \textbf{Explicación} \\
         \begin{tabular}{p{2cm} l}
                 Parámetro 1 & \\
-        \end{tabular}
-
+        \end{tabular}\\
         \textbf{Retorno} & \\
         \textbf{Proceso} & Pseudocodigo \\
 \end{tabularx}
