@@ -23,8 +23,7 @@
 
 \section{Prefacio}
 \begin{tabular}{p{3cm} p{12cm}}
-        & Este es el Documento de Requisitos de Air Guitar, que consiste en
-        producir sonido cuando se toca a su Air Guitar. \\
+        & Este es el Documento de Requisitos de “Air Guitar", un movimiento en donde se pretende tocar una guitarra. \\
         \textbf{Alcance del documento} & El Documento de Requisitos es la base
         de todo el desarrollo futuro de Nombre del Sistema. Describe los
         siguientes aspectos del sistema: propósito, contexto, requisitos
@@ -63,7 +62,7 @@ información está basada en el Documento de Inicio de Proyecto.
 
 \subsection{Propósito}
 Se generará un sonido de guitarra cuando un usuario esté simulando el tocar
-una guitarra en el aire. El tono y el volumen se basaran en la posición de
+una guitarra en el aire. El tono y el volumen se basarán en la posición de
 las manos y la cadera del usuario.
 
 \subsection{Alcance}
@@ -71,10 +70,10 @@ El sistema generará sonidos de acordes de guitarra. El tono se calculará en
 base a la distancia entre la mano izquierda y la cadera. El volumen se
 calculará en base a la velocidad de la mano derecha. Los sonidos se
 reproducirán cuando la mano derecha pase sobre un área predefinida que
-simulara el área de las cuerdas de una guitarra real.  El sistema funcionará
+simulara el área de las cuerdas de una guitarra real. También sera posible cambiar el orden de las manos para poder adaptarse a zurdos. El sistema funcionará
 con un solo usuario a la vez. Deberá estar parado, de frente al Kinect y a
 una distancia de entre 0.8m  a 2.5m aproximadamente debido a las limitaciones
-técnicas del Kinect \cite{depth_range}. Ademas debe existir una iluminación adecuada. Solo se
+técnicas del Kinect \cite{depth_range}. Además debe existir una iluminación adecuada. Solo se
 podrán tocar power chords (acordes que consisten de la nota fundamental, su
 quinta y octavas). El rango de sonidos será similar a una guitarra real
 siendo la nota fundamental más grave E1 y la más aguda E2, así cubriendo una
@@ -89,10 +88,10 @@ Kinect es un sensor de movimiento creado inicialmente para el Xbox 360.
 Utiliza una cámara RGB y un sensor infrarrojo para detectar la distancia de
 diferentes objetos y seguir los movimientos del cuerpo humano \cite{kinect_spec}.
 
-Microsoft libero el SDK de Kinect for Windows en el 2011 \cite{kinect_release}. Esto permitió a los
-desarrolladores crear aplicaciones que usaran el Kinect en C++/CLI, C\# y
+Microsoft liberó el SDK de Kinect for Windows en el 2011 \cite{kinect_release}. Esto permitió a los
+desarrolladores crear aplicaciones que usen el Kinect en C++/CLI, C\# y
 Visual Basic .NET. Este SDK permite reconocer movimientos, gestos y comandos
-de voz \cite{sdk}. La ultima version también incluye herramientas para quitar el fondo
+de voz \cite{sdk}. La última version también incluye herramientas para quitar el fondo
 para obtener un efecto de pantalla verde, mejoras para escanear y modelar
 objetos 3D con Kinect Fusion y la opción para codificar en HTML5/JavaScript \cite{kinect_new}.
 
@@ -140,6 +139,8 @@ La tabla~\ref{tab:respuesta} muestra las respuestas del sistema frente a eventos
                 la mano derecha y posición de la mano izquierda & Reproducción
                 de sonido \\
                 \hline
+                Proyectar guitarra & Se proyecta un modelo 3D de una guitarra sobre la imagen del usuario. \\
+                \hline
         \end{tabular}
         \caption{Eventos externos}
         \label{tab:event}
@@ -152,13 +153,14 @@ La tabla~\ref{tab:respuesta} muestra las respuestas del sistema frente a eventos
                 \textbf{Respuesta} & \textbf{Descripción} & \textbf{Parámetros} \\
                 \hline
                 Tono y volumen & Calcula el tono basado en la distancia entre
-                los puntos de la mano izquierda y la cadera. Calcula el volumen
-                basado en la velocidad de la mano derecha. & Colección de
+                los puntos de la mano izquierda y la cadera.
+                Si la mano izquierda esta muy lejos de la cadera simplemente toca la nota mas grave, igual cuando este muy cerca simplemente toca la nota mas aguda. Calcula el volumen
+                basado en la velocidad de la mano derecha al entrar a un area predefinida. Existira un volumen máximo. & Colección de
                 puntos 3D del esqueleto del usuario. \\
                 \hline
                 Reproducción de sonido & Reproduce el sonido correspondiente al
                 tono en el que se encuentra el sistema a un volumen basado en
-                la velocidad de la mano derecha. & Velocidad de mano derecha. \\
+                la velocidad de la mano derecha. Se podran escoger entre diferentes tipos de sonidos pregrabados, por ejemplo guitarra eléctrica o acustica. & Velocidad de mano derecha. \\
                 \hline
         \end{tabular}
         \caption{Respuestas del sistema}
@@ -218,12 +220,12 @@ posición de la cadera y de la mano izquierda.
 Se proyecta un modelo 3D de la guitarra basado en la posición obtenida de la
 cadera y la mano izquierda.
 \subsubsection{Calcular tono(CT)}
-Se calculara el tono basado en la distancia entre la cadera y la mano izquierda.
+Se calculará el tono basado en la distancia entre la cadera y la mano izquierda.
 \subsubsection{¿Está la mano derecha sobre las cuerdas?(MD)}
 Se verá si la mano derecha se encuentra sobre un área predefinida alrededor del
 punto de la cadera que simulara el área de las cuerdas de una guitarra real.
 \subsubsection{Calcular el volumen(CV)}
-Se calculara el volumen basado en la velocidad de la mano derecha.
+Se calculará el volumen basado en la velocidad de la mano derecha.
 \subsubsection{Reproducir sonido(RS)}
 Se reproducirá el sonido correspondiente al tono calculado al volumen
 previamente calculado.
@@ -257,16 +259,14 @@ Una colección de sonidos de acordes de guitarra grabados previamente.
 \begin{itemize}
         \item La precisión y el tiempo de respuesta del Kinect será suficiente
                 para dar una experiencia similar a una guitarra real
-        \item La iluminación donde se instala el sistema será el en rango donde
+        \item La iluminación donde se instala el sistema será en el rango donde
                 funciona el Kinect
 \end{itemize}
 
 \subsection{Dependencias}
 \begin{itemize}
         \item Disponibilidad de un Kinect for Windows
-        \item Disponibilidad de un proyector
-        \item Un logar con buena iluminación y suficiente espacio para hacer
-                pruebas
+        \item Un lugar con buena iluminación y suficiente espacio para moverse.
 \end{itemize}
 
 \subsection{Restricciones}
