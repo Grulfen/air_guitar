@@ -1,4 +1,4 @@
-\documentclass[a4paper,10pt]{article}
+\documentclass[a4paper,12pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
@@ -213,7 +213,7 @@ no las pueden usar.~\\
 
         \textbf{Retorno} & Puntero al esqueleto del usuario con ID playerID o NULL en caso de error\\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
+        \begin{lstlisting}[breaklines=true]^^J
                 if(kinect::frameReady)\{^^J
                 \      skeleton = kinect::getNextFrame->skeleton_data[player_id];^^J
                 \      return skeleton;^^J
@@ -236,7 +236,7 @@ no las pueden usar.~\\
 
         \textbf{Retorno} & Puntero a la estructura de datos HandsHip creado\\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
+        \begin{lstlisting}[breaklines=true]^^J
         skeleton = getSkeleton(playerID);^^J
         HandsHip *handsHip = new HandsHip;^^J
         handsHip->hip = skeleton->hipPosition;^^J
@@ -258,7 +258,7 @@ no las pueden usar.~\\
         \textbf{Prototipo} & \lstinline{*ImageFrame getNextImageFrame();}\\
         \textbf{Retorno} & Puntero al frame de imagen \\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
+        \begin{lstlisting}[breaklines=true]^^J
                 if(kinect::frameReady)\{^^J
                 \      imageFrame = kinect::getNextImageFrame()^^J
                 \      return imageFrame;^^J
@@ -303,14 +303,6 @@ otros módulos.
 
                 
 
-\subsubsection{Tipos de Datos Públicos}
-\begin{tabular}{| p{30mm} | p{10cm} |}
-        \hline
-        \textbf{Nombre del \mbox{tipo}} & \textbf{Descripción} \\
-        \hline
-         & \\
-        \hline
-\end{tabular}
 \subsubsection{Variables Públicos}
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
@@ -335,18 +327,6 @@ tienen acceso a la funcionalidad de este módulo mediante estas funciones.
         \hline
 \end{tabular}
 \subsection{Estructuras de Datos}
-\subsection{Funciones Privadas}
-Las siguientes funciones auxiliares son privadas de este módulo; otros módulos
-no las pueden usar.
-~\\
-
-\begin{tabular}{| p{30mm} | p{10cm} |}
-        \hline
-        \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
-        \hline
-         & \\
-        \hline
-\end{tabular}
 \subsection{Diseño Detallado de las Funciones}
 \subsubsection{calculateTone}
 \begin{tabularx}{\textwidth}{p{25mm} X}
@@ -360,7 +340,7 @@ no las pueden usar.
 
         \textbf{Retorno} & \\
         \textbf{Proceso} & 
-               \begin{lstlisting}^^J
+               \begin{lstlisting}[breaklines=true]^^J
             chordHand = handship->chordHand;^^J
             hip = handship->hip;^^J
             float distance = (chordHand.X - hip.X)*(chordHand.X - hip.X) + (chordHand.Y - hip.Y)*(chordHand.Y - hip.Y);^^J
@@ -405,7 +385,7 @@ no las pueden usar.
 
         \textbf{Retorno} &\\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
+        \begin{lstlisting}[breaklines=true]^^J
             rightHand = handsHip->rightHand;^^J
         float distance = (rightHand.X - lastRightHand.X)*(rightHand.X - lastRightHand.X)^^J
                         + (rightHand.Y - lastRightHand.Y)*(rightHand.Y - lastRightHand.Y);^^J
@@ -431,7 +411,7 @@ no las pueden usar.
 
         \textbf{Retorno} & Valor booleano que indica si una nota fue tocada\\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
+        \begin{lstlisting}[breaklines=true]^^J
             hip = handsHip->hip;^^J
             rightHand = handsHip->rightHand;^^J
             ax = hip.X-boxSize;^^J
@@ -479,23 +459,12 @@ no las pueden usar.
 \subsection{Declaraciones Públicas}
 Esta sección enumera constantes, tipos y variables del módulo, visibles para
 otros módulos.
-\subsubsection{Constantes Públicas}
-\begin{tabular}{| p{30mm} | p{10cm} |}
-        \hline
-        \textbf{Nombre de la \mbox{constante}} & \textbf{Descripción} \\
-        \hline
-         & \\
-        \hline
-\end{tabular}
-                
-
-\subsubsection{Variables Públicos}
 \subsubsection{Estructuras de Datos}
 \begin{tabular}{| p{30mm} | p{10cm} |}
         \hline
-        \textbf{Nombre de la \mbox{variable}} & \textbf{Descripción} \\
+        \textbf{Nombre de la \mbox{estructura}} & \textbf{Descripción} \\
         \hline
-        \texttt{guitar\_type} & Que tipo de guitarra que esta tocando el usuario ahora\\
+        Guitar & Objeto que contiene la información de la guitarra, la imagen, que tipo es, el objeto 3d con orientación y escala\\
         \hline
 \end{tabular}
 \subsection{Funciones Públicas}
@@ -514,6 +483,14 @@ tienen acceso a la funcionalidad de este módulo mediante estas funciones.~\\
         \hline
 \end{tabular}
 
+\subsubsection{Variables Privadas}
+\begin{tabular}{| p{30mm} | p{10cm} |}
+        \hline
+        \textbf{Nombre de la \mbox{variable}} & \textbf{Descripción} \\
+        \hline
+        guitar & el objeto que contiene la información de la guitarra\\
+        \hline
+\end{tabular}
 \subsection{Funciones Privadas}
 Las siguientes funciones auxiliares son privadas de este módulo; otros módulos
 no las pueden usar.~\\
@@ -522,7 +499,7 @@ no las pueden usar.~\\
         \hline
         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
         \hline
-        calculateGuitarPosition & Calcula la posición de la guitarra en base a la cadera y longitud de guitarra \\
+        calcGuitarPos & Calcula la posición normalizada de la guitarra en base a la cadera y longitud de guitarra \\
         \hline
 \end{tabular}
 \subsection{Diseño Detallado de las Funciones}
@@ -538,7 +515,7 @@ no las pueden usar.~\\
 
         \textbf{Retorno} & Nada\\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
+        \begin{lstlisting}[breaklines=true]^^J
         ofImage tmpImage = ofImage(image);^^J
                 tmpImage.draw(0,0);^^J
         \end{lstlisting}
@@ -547,37 +524,73 @@ no las pueden usar.~\\
 \subsubsection{drawGuitar}
 \begin{tabularx}{\textwidth}{p{25mm} X}
         \textbf{Propósito} & Pinta la guitarra sobre la imagen del usuario\\
-        \textbf{Dependencias} & openFrameworks y calculateGuitarPosition\\
-        \textbf{Prototipo} & void drawGuitar(int x1=-1, int y1 = -1, int x2=-1, int y2=-1)\\
-        \textbf{Parámetro} & \textbf{Explicación} \\
-        \begin{tabular}{p{2cm} l}
-                x1 & Coordenada x donde se pintará la base de la guitarra, si es negativo se calcula las posiciones\\ 
-                y1 & Coordenada y donde se pintará la base de la guitarra, si es negativo se calcula las posiciones\\ 
-                x2 & Coordenada x donde se pintará la cabeza de la guitarra, si es negativo se calcula las posiciones\\ 
-                y2 & Coordenada y donde se pintará la cabeza de la guitarra, si es negativo se calcula las posiciones\\ 
-        \end{tabular}\\
-
+        \textbf{Dependencias} & openFrameworks y calcGuitarPos\\
+        \textbf{Prototipo} & void drawGuitar()\\
         \textbf{Retorno} & Nada \\
         \textbf{Proceso} & 
-        \begin{lstlisting}^^J
-                if(x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0)^^J
+        \begin{lstlisting}[breaklines=true]^^J
+                int positions[4];^^J
+                positions = calculateGuitarPosition();^^J
+                guitar.setRotation(atan2(position[3] - position[1], position[2] - position[0]));^^J
+                guitar.draw(position[0], position[1]);^^J
         \end{lstlisting}
 \end{tabularx}
-\subsubsection{drawImage}
+\subsubsection{playTone}
 \begin{tabularx}{\textwidth}{p{25mm} X}
-        \textbf{Propósito} & \\
-        \textbf{Dependencias} & \\
-        \textbf{Prototipo} & \\
+        \textbf{Propósito} & Toca el tono recibido como parametro \\
+        \textbf{Dependencias} & Módulo de Procesamiento y openFrameworks\\
+        \textbf{Prototipo} & void playTone(int tone, int volume);\\
         \textbf{Parámetro} & \textbf{Explicación} \\
         \begin{tabular}{p{2cm} l}
-                Parámetro 1 & \\
+                tone & El tono a tocar \\
+                volume & El volumen debido a la velocidad de la mano derecha\\
         \end{tabular}\\
-        \textbf{Retorno} & \\
-        \textbf{Proceso} & Pseudocodigo \\
+        \textbf{Retorno} & Nada \\
+        \textbf{Proceso} & 
+        \begin{lstlisting}[breaklines=true]^^J
+                int total_volume = volume * ui->volume;^^J
+                ofSoundPlayer note;^^J
+                ofSoundSetVolume(volume);
+                note.load(tone);^^J
+                note.play();^^J
+        \end{lstlisting}
+
+        \\
 \end{tabularx}
 
 \newpage
 
+\subsubsection{calcGuitarPos}
+\begin{tabularx}{\textwidth}{p{25mm} X}
+        \textbf{Propósito} & Calcula la posición de la base y cabeza de la guitarra\\
+        \textbf{Dependencias} & Módulo de Captura \\
+        \textbf{Prototipo} & \lstinline{int* calcGuitarPos(HandsHip handsHip);}\\
+        \textbf{Parámetro} & \textbf{Explicación} \\
+        \begin{tabular}{p{2cm} l}
+                handsHip & Información sobre las posiciones de las manos y cadera del usuario \\
+        \end{tabular}\\
+
+        \textbf{Retorno} & Un arreglo de enteros que representa las posiciones de la base y cabeza de la guitarra\\
+        \textbf{Proceso} & 
+        \begin{lstlisting}[breaklines=true]^^J
+                int pos* = new int[4];^^J
+                int hipx = handsHip->hipPosition[0];^^J
+                int hipy = handsHip->hipPosition[1];^^J
+                int handx = handsHip->chordHandPosition[0];^^J
+                int handy = handsHip->chordHandPosition[1];^^J
+                float dx = handx - hipx;^^J
+                float dy = handy - hipy;^^J
+                float normValue sqrt(dx*dx + dy*dy);^^J
+                dx = dx/normValue;^^J
+                dy = dy/normValue;^^J
+                pos[0] = hipx;^^J
+                pos[1] = hipy;^^J
+                pos[2] = (int)hipx + dx*gitarr->length;^^J
+                pos[3] = (int)hipy + dy*gitarr->length;^^J
+                return pos;^^J
+        \end{lstlisting}
+
+\end{tabularx}
 \section{Diseño de Interfaces}
 \subsection{Modelo de Navegación}
 El modelo de navegación es muy simple porque sólo hay una interfaz
@@ -601,6 +614,9 @@ el fondo será el usuario con una guitara sobrepuesta.
         Cambio de guitarra & El usuario aprieta el botón ``Acustic'' o
         ``Electric'' & Se cambia el modelo de la guitarra y el sonido & Módulo
         de Presentación \\
+        Cambio de mano & El usuario aprieta el botón ``Right-Handed'' o
+        ``Left-Handed'' & Se cambia mano tocando y mano de acorde & Módulo
+        de Captura \\
 
 
 \end{tabularx}
