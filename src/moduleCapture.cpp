@@ -4,19 +4,20 @@ moduleCapture::moduleCapture()
 {
 	sensor = NULL;
 	if(SUCCEEDED(NuiCreateSensorByIndex(0, &sensor))){
-		std::cout << "Connected to Kinect" << std::endl;
-		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON)))
+		OutputDebugStringW(L"Connected to Kinect");
+		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR )))
 		{
-			std::cout << "Kinect with Skeleton" << std::endl;
+			OutputDebugStringW(L"Kinect with Skeleton");
 			return;
 		}
 		else {
-			std::cout << "Error initializing Kinect" << std::endl;
+			OutputDebugStringW(L"Error initializing Kinect");
 			exit(1);
 		}
+	} else {
+		OutputDebugStringW(L"Error connecting to Kinect");
+		exit(1);
 	}
-	std::cout << "Error connecting to Kinect" << std::endl;
-	exit(1);
 }
 
 HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
@@ -43,6 +44,7 @@ NUI_IMAGE_FRAME *moduleCapture::getNextFrame()
 
 NUI_SKELETON_DATA moduleCapture::getSkeleton(int playerId)
 {
+		// TODO Fix playerId	
 		sensor->NuiSkeletonGetNextFrame(1000, pSkeletonFrame);
 		for(int i=0;i<NUI_SKELETON_COUNT;i++){
 			const NUI_SKELETON_DATA &skel = pSkeletonFrame->SkeletonData[i];

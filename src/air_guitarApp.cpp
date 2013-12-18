@@ -3,11 +3,15 @@
 #include "cinder/app/AppBasic.h"
 #include "cinder/Camera.h"
 #include "cinder/gl/Texture.h"
+#include "cinder/gl/TextureFont.h"
 #include "cinder/ImageIo.h"
 #include "cinder/params/Params.h"
 #include "cinder/Utilities.h"
+#include "cinder/gl/gl.h"
+#include "cinder/Text.h"
 #include "NuiApi.h"
 #include "moduleCapture.h"
+
 
 /* 
 * This application demonstrates how to acquire and display 
@@ -26,7 +30,12 @@ public:
 	void	shutdown();
 	void	update();
 
-	moduleCapture capture;
+	//moduleCapture capture;
+
+private:
+	HandsHip *handsHip;
+	ci::gl::TextureFontRef mFont;
+	std::string mText;
 };
 
 // Imports
@@ -37,6 +46,8 @@ using namespace std;
 // Render
 void AirGuitarApp::draw()
 {
+	ci::gl::clear();
+	mFont->drawString(mText, cinder::Rectf(0,0,120,120));
 }
 
 // Handles key press
@@ -51,8 +62,13 @@ void AirGuitarApp::keyDown( KeyEvent event )
 	case KeyEvent::KEY_f:
 		setFullScreen( !isFullScreen() );
 		break;
+	case KeyEvent::KEY_SPACE:
+		if(mText == "hejsan"){
+			mText = "apfan";
+		} else {
+			mText = "hejsan";
+		}
 	}
-
 }
 
 // Prepare window
@@ -63,9 +79,10 @@ void AirGuitarApp::prepareSettings( Settings *settings )
 }
 
 // Set up
-void AirGuitarApp::setup()
-{
-	capture = moduleCapture();
+void AirGuitarApp::setup(){
+	mFont = ci::gl::TextureFont::create(Font("Arial Black", 24));
+	mText = "Hejsan";
+	//capture = moduleCapture();
 }
 
 // Called on exit
@@ -75,8 +92,7 @@ void AirGuitarApp::shutdown()
 
 // Runs update logic
 void AirGuitarApp::update()
-{
-}
+{}
 
 // Run application
 CINDER_APP_BASIC( AirGuitarApp, RendererGl )
