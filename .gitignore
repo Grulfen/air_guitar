@@ -11,3 +11,12 @@
 *.lai
 *.la
 *.a
+
+
+*.sln
+*.vcxproj
+*.rc
+*.filters
+# Folders
+/vc11/
+/include/*.h
