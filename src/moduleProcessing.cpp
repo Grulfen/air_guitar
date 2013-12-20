@@ -23,10 +23,10 @@ moduleProcessing::moduleProcessing(){
 
 
 void moduleProcessing::calculateTone(HandsHip *handship){
-	vector<float> chordHand = handship->chordHandPosition;
-	vector<float> hip = handship->hipPosition;
+	Vector4 chordHand = handship->chordHandPosition;
+	Vector4 hip = handship->hipPosition;
 
-	float distance = (chordHand[0]-hip[0])*(chordHand[0]-hip[0]) + (chordHand[1]-hip[1])*(chordHand[1]-hip[1]);
+	float distance = (chordHand.x-hip.x)*(chordHand.x-hip.x) + (chordHand.y-hip.y)*(chordHand.y-hip.y);
 
 	if(distance>E){
 		this->tone = 0;
@@ -56,9 +56,9 @@ void moduleProcessing::calculateTone(HandsHip *handship){
 }
 
 void moduleProcessing::calculateVolume(HandsHip *handship){
-	vector<float> playingHand = handship->playingHandPosition;
+	Vector4 playingHand = handship->playingHandPosition;
 
-	float distance = (playingHand[0]-lastPlayingHand[0])*(playingHand[0]-lastPlayingHand[0]) + (playingHand[1]-lastPlayingHand[1])*(playingHand[1]-lastPlayingHand[1]);
+	float distance = (playingHand.x-lastPlayingHand.x)*(playingHand.x-lastPlayingHand.x) + (playingHand.y-lastPlayingHand.y)*(playingHand.y-lastPlayingHand.y);
 
 	if(distance>maxDistance){
 		this->volume = 1.0;
@@ -69,25 +69,25 @@ void moduleProcessing::calculateVolume(HandsHip *handship){
 }
 
 bool moduleProcessing::playedNote(HandsHip *handship){
-	vector<float> hip = handship->hipPosition;
-	vector<float> playingHand = handship->playingHandPosition;
+	Vector4 hip = handship->hipPosition;
+	Vector4 playingHand = handship->playingHandPosition;
 
-	float ax = hip[0]-boxSize,
-		ay = hip[1]-boxSize,
-		bx = hip[0]+boxSize,
-		by = hip[1]-boxSize,
-		dx = hip[0]+boxSize,
-		dy = hip[1]+boxSize;
+	float ax = hip.x-boxSize,
+		ay = hip.y-boxSize,
+		bx = hip.x+boxSize,
+		by = hip.y-boxSize,
+		dx = hip.x+boxSize,
+		dy = hip.y+boxSize;
 
 	float bax = bx - ax,
 		bay = by - ay,
 		dax = dx - ax,
 		day = dy -ay;
 
-	if ((playingHand[0] - ax) * bax + (playingHand[1] - ay) * bay < 0.0) this->isOnPlayingArea = false;
-	if ((playingHand[0] - bx) * bax + (playingHand[1] - by) * bay > 0.0) this->isOnPlayingArea = false;
-	if ((playingHand[0] - ax) * dax + (playingHand[1] - ay) * day < 0.0) this->isOnPlayingArea = false;
-	if ((playingHand[0] - dx) * dax + (playingHand[1] - dy) * day > 0.0) this->isOnPlayingArea = false;
+	if ((playingHand.x - ax) * bax + (playingHand.y - ay) * bay < 0.0) this->isOnPlayingArea = false;
+	if ((playingHand.x - bx) * bax + (playingHand.y - by) * bay > 0.0) this->isOnPlayingArea = false;
+	if ((playingHand.x - ax) * dax + (playingHand.y - ay) * day < 0.0) this->isOnPlayingArea = false;
+	if ((playingHand.x - dx) * dax + (playingHand.y - dy) * day > 0.0) this->isOnPlayingArea = false;
 
 	if(isOnPlayingArea && !notePlayed){
 		notePlayed = true;

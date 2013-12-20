@@ -1,12 +1,7 @@
 #include <vector>
+#include "moduleCapture.h"
 
 using namespace std;
-
-struct HandsHip{
-	vector<float> chordHandPosition;
-	vector<float> hipPosition;
-	vector<float> playingHandPosition;
-};
 
 class moduleProcessing{
 	
@@ -28,7 +23,7 @@ class moduleProcessing{
 
 		float maxDistance;
 
-		vector<float> lastPlayingHand;
+		Vector4 lastPlayingHand;
 
 		bool isOnPlayingArea,notePlayed;
 					
