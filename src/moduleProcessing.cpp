@@ -19,6 +19,7 @@ moduleProcessing::moduleProcessing(){
 
 			boxSize = 0.05f;
 			maxDistance = 0.01f;
+
 }
 
 
