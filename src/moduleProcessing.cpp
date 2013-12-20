@@ -14,10 +14,10 @@ moduleProcessing::moduleProcessing(){
 			B = 0.21;
 			C = 0.17;
 			Csharp = 0.13;
-			D = 0.9;
+			D = 0.09;
 			Dsharp = 0.05;
 
-			boxSize = 0.05;
+			boxSize = 0.08;
 			maxDistance = 0.01;
 }
 
