@@ -1,5 +1,6 @@
 // Includes
 #include <Windows.h>
+#include "NuiApi.h"
 #include "cinder/app/AppBasic.h"
 #include "cinder/Camera.h"
 #include "cinder/gl/Texture.h"
@@ -9,7 +10,6 @@
 #include "cinder/Utilities.h"
 #include "cinder/gl/gl.h"
 #include "cinder/Text.h"
-#include "NuiApi.h"
 #include "moduleCapture.h"
 #include "moduleProcessing.h"
 #include "modulePresentation.h"
@@ -33,14 +33,22 @@ public:
 	void	update();
 
 	moduleCapture capture;
-	ci::Surface8u background;
+	ci::Surface8u *background;
 
 private:
 	modulePresentation mPresentation;
 	moduleProcessing mProcessing;
 	HandsHip *handsHip;
+
 	ci::gl::TextureFontRef mFont;
+	ci::gl::Texture backgroundTex;
 	std::string mText;
+	float chordHandX;
+	float chordHandY;
+	float playHandX;
+	float playHandY;
+	float HipY;
+	float HipX;
 };
 
 // Imports
@@ -53,6 +61,15 @@ void AirGuitarApp::draw()
 {
 	ci::gl::clear();
 	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
+	if(handsHip != NULL){
+
+		ci::gl::drawSolidCircle( Vec2f( chordHandX, chordHandY), 10);
+		ci::gl::drawSolidCircle( Vec2f( playHandX, playHandY), 10);
+		ci::gl::drawSolidCircle( Vec2f( HipX, HipY), 10);
+	}
+	//if(background != NULL){
+		//gl::draw(backgroundTex, getWindowBounds());
+	//}
 }
 
 // Handles key press
@@ -67,12 +84,6 @@ void AirGuitarApp::keyDown( KeyEvent event )
 	case KeyEvent::KEY_f:
 		setFullScreen( !isFullScreen() );
 		break;
-	case KeyEvent::KEY_SPACE:
-		if(mText == "hejsan"){
-			mText = "apfan";
-		} else {
-			mText = "hejsan";
-		}
 	}
 }
 
@@ -88,8 +99,9 @@ void AirGuitarApp::setup(){
 	mFont = ci::gl::TextureFont::create(Font("Arial Black", 40));
 	mText = "durr";
 	capture = moduleCapture();
-	background = ci::Surface8u(capture.resolution.width, capture.resolution.height, false);
+	//background = new ci::Surface8u(capture.resolution.width, capture.resolution.height, false);
 	mPresentation.setSounds(0);
+	OutputDebugStringW(L"In setup end\n");
 }
 
 // Called on exit
@@ -101,22 +113,25 @@ void AirGuitarApp::shutdown()
 void AirGuitarApp::update()
 {
 	handsHip = capture.formHandsHip(0);
+
 	if(handsHip != NULL){
-		mText = std::to_string(handsHip->chordHandPosition.x) + ", " + std::to_string(handsHip->chordHandPosition.y) + ", " + std::to_string(handsHip->chordHandPosition.z);
-		mText += "\n";
-		mText += std::to_string(handsHip->playingHandPosition.x) + ", " + std::to_string(handsHip->playingHandPosition.y) + ", " + std::to_string(handsHip->playingHandPosition.z);
-		mText += "\n";
-		mText += std::to_string(handsHip->hipPosition.x) + ", " + std::to_string(handsHip->hipPosition.y) + ", " + std::to_string(handsHip->hipPosition.z);
-		mText += "\n";
 		mProcessing.calculateVolume(handsHip);
 		mProcessing.calculateTone(handsHip);
 		if(mProcessing.playedNote(handsHip)){
 			mPresentation.playNote(mProcessing.tone,mProcessing.volume);
 		}
-		mText += std::to_string(mProcessing.tone);
+		chordHandX = capture.resolution.width*(2 + handsHip->chordHandPosition.x)/4;
+		chordHandY = capture.resolution.width - capture.resolution.width*(2 + handsHip->chordHandPosition.y)/4;
+		playHandX = capture.resolution.width*(2 + handsHip->playingHandPosition.x)/4;
+		playHandY = capture.resolution.width - capture.resolution.width*(2 + handsHip->playingHandPosition.y)/4;
+		HipX = capture.resolution.width*(2 + handsHip->hipPosition.x)/4;
+		HipY = capture.resolution.width - capture.resolution.width*(2 + handsHip->hipPosition.y)/4;
+		mText = std::to_string(mProcessing.tone);
 	} else {
 		mText = "Skeleton not found";
 	}
+	//capture.getNextFrame(background);
+	//backgroundTex = ci::gl::Texture(*background);
 }
 
 // Run application

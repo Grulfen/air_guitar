@@ -1,4 +1,5 @@
 #include "moduleCapture.h"
+#include "cinder/ImageIo.h"
 #include "string"
 
 moduleCapture::moduleCapture()
@@ -9,6 +10,7 @@ moduleCapture::moduleCapture()
 	pSkeletonFrame = new NUI_SKELETON_FRAME;
 	skeleton = new NUI_SKELETON_DATA;
 	pColorImageFrame = new NUI_IMAGE_FRAME;
+	colorSurface = new ci::Surface8u;
 	if(SUCCEEDED(NuiCreateSensorByIndex(0, &sensor))){
 		OutputDebugStringW(L"Connected to Kinect\n");
 		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR )))
@@ -27,9 +29,10 @@ moduleCapture::moduleCapture()
 }
 
 moduleCapture::~moduleCapture(){
-	delete skeleton;
-	delete pSkeletonFrame;
-	delete pColorImageFrame;
+	//delete skeleton;
+	//delete pSkeletonFrame;
+	//delete pColorImageFrame;
+	//delete colorSurface;
 }
 
 HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
@@ -52,11 +55,30 @@ HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 	return h;
 }
 
-NUI_IMAGE_FRAME *moduleCapture::getNextFrame()
+void moduleCapture::getNextFrame(ci::Surface8u *surface)
 {
+	OutputDebugStringW(L"Next Frame start\n");
 	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480, 0, 2, NULL, &colorStreamHandle);
-	sensor->NuiImageStreamGetNextFrame(colorStreamHandle,1000, pColorImageFrame);
-	return pColorImageFrame;
+	sensor->NuiImageStreamGetNextFrame(colorStreamHandle,100, pColorImageFrame);
+	INuiFrameTexture * colorTexture = pColorImageFrame->pFrameTexture;
+	NUI_LOCKED_RECT *colorRect = new NUI_LOCKED_RECT;
+	OutputDebugStringW(L"Got colorRect\n");
+	// FIXME Here be dragons
+	colorTexture->LockRect( 0, colorRect, 0, 0 );
+	if(colorRect->Pitch == 0){
+		OutputDebugStringW(L"colorRect pitch 0\n");
+		return;
+	}
+	OutputDebugStringW(L"colorRect pitch != 0\n");
+	uint8_t *buffer = colorRect->pBits;
+	int32_t height        = surface->getHeight();
+    int32_t width        = surface->getWidth();
+    int32_t size        = width * height * 3;
+	OutputDebugStringW(L"Before memcpy\n");
+    memcpy(surface->getData(), buffer, size );
+	delete colorRect;
+	colorTexture->UnlockRect(0);
+	OutputDebugStringW(L"After memcpy\n");
 }
 
 NUI_SKELETON_DATA *moduleCapture::getSkeleton(int playerId)
