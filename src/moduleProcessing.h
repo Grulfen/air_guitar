@@ -10,9 +10,10 @@ struct HandsHip{
 
 class moduleProcessing{
 	
-	moduleProcessing();
+	
 
 	public: 
+		moduleProcessing();
 		void calculateTone(HandsHip *handship);
 		void calculateVolume(HandsHip *handship);
 		bool playedNote(HandsHip *handship);
