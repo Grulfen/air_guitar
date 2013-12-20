@@ -31,6 +31,7 @@ public:
 	void	update();
 
 	moduleCapture capture;
+	ci::Surface8u background;
 
 private:
 	HandsHip *handsHip;
@@ -83,6 +84,7 @@ void AirGuitarApp::setup(){
 	mFont = ci::gl::TextureFont::create(Font("Arial Black", 40));
 	mText = "durr";
 	capture = moduleCapture();
+	background = ci::Surface8u(capture.resolution.width, capture.resolution.height, false);
 }
 
 // Called on exit
