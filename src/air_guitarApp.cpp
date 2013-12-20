@@ -30,7 +30,7 @@ public:
 	void	shutdown();
 	void	update();
 
-	//moduleCapture capture;
+	moduleCapture capture;
 
 private:
 	HandsHip *handsHip;
@@ -47,7 +47,7 @@ using namespace std;
 void AirGuitarApp::draw()
 {
 	ci::gl::clear();
-	mFont->drawString(mText, cinder::Rectf(0,0,120,120));
+	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
 }
 
 // Handles key press
@@ -80,9 +80,9 @@ void AirGuitarApp::prepareSettings( Settings *settings )
 
 // Set up
 void AirGuitarApp::setup(){
-	mFont = ci::gl::TextureFont::create(Font("Arial Black", 24));
-	mText = "Hejsan";
-	//capture = moduleCapture();
+	mFont = ci::gl::TextureFont::create(Font("Arial Black", 40));
+	mText = "durr";
+	capture = moduleCapture();
 }
 
 // Called on exit
@@ -92,7 +92,18 @@ void AirGuitarApp::shutdown()
 
 // Runs update logic
 void AirGuitarApp::update()
-{}
+{
+	handsHip = capture.formHandsHip(0);
+	if(handsHip != NULL){
+		mText = std::to_string(handsHip->chordHandPosition.x) + ", " + std::to_string(handsHip->chordHandPosition.y) + ", " + std::to_string(handsHip->chordHandPosition.z);
+		mText += "\n";
+		mText += std::to_string(handsHip->playingHandPosition.x) + ", " + std::to_string(handsHip->playingHandPosition.y) + ", " + std::to_string(handsHip->playingHandPosition.z);
+		mText += "\n";
+		mText += std::to_string(handsHip->hipPosition.x) + ", " + std::to_string(handsHip->hipPosition.y) + ", " + std::to_string(handsHip->hipPosition.z);
+	} else {
+		mText = "Skeleton not found";
+	}
+}
 
 // Run application
 CINDER_APP_BASIC( AirGuitarApp, RendererGl )

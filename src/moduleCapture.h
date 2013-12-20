@@ -31,7 +31,7 @@ private:
 	HANDLE colorStreamHandle;
 	NUI_IMAGE_FRAME pColorImageFrame;
 	NUI_SKELETON_FRAME *pSkeletonFrame;
-	NUI_SKELETON_DATA getSkeleton(int playerID);
+	NUI_SKELETON_DATA *getSkeleton(int playerID);
 };
 
 #endif

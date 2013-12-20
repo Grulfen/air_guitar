@@ -1,28 +1,35 @@
 #include "moduleCapture.h"
+#include "string"
 
 moduleCapture::moduleCapture()
 {
 	sensor = NULL;
+	resolution.height = 480;
+	resolution.width = 640;
+	pSkeletonFrame = new NUI_SKELETON_FRAME;
 	if(SUCCEEDED(NuiCreateSensorByIndex(0, &sensor))){
-		OutputDebugStringW(L"Connected to Kinect");
+		OutputDebugStringW(L"Connected to Kinect\n");
 		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR )))
 		{
-			OutputDebugStringW(L"Kinect with Skeleton");
-			return;
+			OutputDebugStringW(L"Kinect with Skeleton\n");
 		}
 		else {
-			OutputDebugStringW(L"Error initializing Kinect");
+			OutputDebugStringW(L"Error initializing Kinect\n");
 			exit(1);
 		}
 	} else {
-		OutputDebugStringW(L"Error connecting to Kinect");
+		OutputDebugStringW(L"Error connecting to Kinect\n");
 		exit(1);
 	}
+	OutputDebugStringW(L"Capture module Instantialized\n");
 }
 
 HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 {
-	NUI_SKELETON_DATA *skeleton = &getSkeleton(playerId);
+	NUI_SKELETON_DATA *skeleton = getSkeleton(playerId);
+	if(skeleton == NULL){
+		return NULL;
+	}
 	HandsHip *h = new HandsHip;
 	h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_CENTER];
 	if(rightHanded){
@@ -42,15 +49,18 @@ NUI_IMAGE_FRAME *moduleCapture::getNextFrame()
 	return &pColorImageFrame;
 }
 
-NUI_SKELETON_DATA moduleCapture::getSkeleton(int playerId)
+NUI_SKELETON_DATA *moduleCapture::getSkeleton(int playerId)
 {
-		// TODO Fix playerId	
+		// TODO Fix playerId
 		sensor->NuiSkeletonGetNextFrame(1000, pSkeletonFrame);
+		NUI_SKELETON_DATA *skel = new NUI_SKELETON_DATA;
 		for(int i=0;i<NUI_SKELETON_COUNT;i++){
-			const NUI_SKELETON_DATA &skel = pSkeletonFrame->SkeletonData[i];
-			if(skel.eTrackingState == NUI_SKELETON_TRACKED)
+			skel = &pSkeletonFrame->SkeletonData[i];
+			if(skel->eTrackingState == NUI_SKELETON_TRACKED)
 			{
+				//OutputDebugString((LPCWSTR)std::to_string(skel->SkeletonPositions[NUI_SKELETON_POSITION_HEAD].x).c_str());
 				return skel;
 			}
 		}
+		return NULL;
 }
