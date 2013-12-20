@@ -8,6 +8,7 @@ moduleCapture::moduleCapture()
 	resolution.width = 640;
 	pSkeletonFrame = new NUI_SKELETON_FRAME;
 	skeleton = new NUI_SKELETON_DATA;
+	pColorImageFrame = new NUI_IMAGE_FRAME;
 	if(SUCCEEDED(NuiCreateSensorByIndex(0, &sensor))){
 		OutputDebugStringW(L"Connected to Kinect\n");
 		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR )))
@@ -28,6 +29,7 @@ moduleCapture::moduleCapture()
 moduleCapture::~moduleCapture(){
 	delete skeleton;
 	delete pSkeletonFrame;
+	delete pColorImageFrame;
 }
 
 HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
@@ -37,11 +39,13 @@ HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 		return NULL;
 	}
 	HandsHip *h = new HandsHip;
-	h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_CENTER];
+	
 	if(rightHanded){
+		h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_RIGHT];
 		h->playingHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_RIGHT];
 		h->chordHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_LEFT];
 	} else {
+		h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_LEFT];
 		h->playingHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_LEFT];
 		h->chordHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_RIGHT];
 	}	
@@ -51,8 +55,8 @@ HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 NUI_IMAGE_FRAME *moduleCapture::getNextFrame()
 {
 	sensor->NuiImageStreamOpen(NUI_IMAGE_TYPE_COLOR, NUI_IMAGE_RESOLUTION_640x480, 0, 2, NULL, &colorStreamHandle);
-	sensor->NuiImageStreamGetNextFrame(colorStreamHandle,1000, &pColorImageFrame);
-	return &pColorImageFrame;
+	sensor->NuiImageStreamGetNextFrame(colorStreamHandle,1000, pColorImageFrame);
+	return pColorImageFrame;
 }
 
 NUI_SKELETON_DATA *moduleCapture::getSkeleton(int playerId)
