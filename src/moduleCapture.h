@@ -22,6 +22,7 @@ class moduleCapture
 {
 public:
 	moduleCapture();
+	~moduleCapture();
 	int playerId;
 	resolution_t resolution;
 	HandsHip *formHandsHip(int playerId, bool rightHanded=true);
@@ -31,6 +32,7 @@ private:
 	HANDLE colorStreamHandle;
 	NUI_IMAGE_FRAME pColorImageFrame;
 	NUI_SKELETON_FRAME *pSkeletonFrame;
+	NUI_SKELETON_DATA *skeleton;
 	NUI_SKELETON_DATA *getSkeleton(int playerID);
 };
 

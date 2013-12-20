@@ -7,6 +7,7 @@ moduleCapture::moduleCapture()
 	resolution.height = 480;
 	resolution.width = 640;
 	pSkeletonFrame = new NUI_SKELETON_FRAME;
+	skeleton = new NUI_SKELETON_DATA;
 	if(SUCCEEDED(NuiCreateSensorByIndex(0, &sensor))){
 		OutputDebugStringW(L"Connected to Kinect\n");
 		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR )))
@@ -24,6 +25,11 @@ moduleCapture::moduleCapture()
 	OutputDebugStringW(L"Capture module Instantialized\n");
 }
 
+moduleCapture::~moduleCapture(){
+	delete skeleton;
+	delete pSkeletonFrame;
+}
+
 HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 {
 	NUI_SKELETON_DATA *skeleton = getSkeleton(playerId);
@@ -38,7 +44,7 @@ HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 	} else {
 		h->playingHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_LEFT];
 		h->chordHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_RIGHT];
-	}
+	}	
 	return h;
 }
 
@@ -53,13 +59,11 @@ NUI_SKELETON_DATA *moduleCapture::getSkeleton(int playerId)
 {
 		// TODO Fix playerId
 		sensor->NuiSkeletonGetNextFrame(1000, pSkeletonFrame);
-		NUI_SKELETON_DATA *skel = new NUI_SKELETON_DATA;
 		for(int i=0;i<NUI_SKELETON_COUNT;i++){
-			skel = &pSkeletonFrame->SkeletonData[i];
-			if(skel->eTrackingState == NUI_SKELETON_TRACKED)
+			skeleton = &pSkeletonFrame->SkeletonData[i];
+			if(skeleton->eTrackingState == NUI_SKELETON_TRACKED)
 			{
-				//OutputDebugString((LPCWSTR)std::to_string(skel->SkeletonPositions[NUI_SKELETON_POSITION_HEAD].x).c_str());
-				return skel;
+				return skeleton;
 			}
 		}
 		return NULL;
