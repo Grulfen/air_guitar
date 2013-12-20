@@ -4,21 +4,21 @@
 using namespace std;
 
 moduleProcessing::moduleProcessing(){
-			E = 120.0;
-			F = 110.0;
-			Fsharp = 100.0;
-			G = 90.0;
-			Gsharp = 80.0;
-			A = 70.0;
-			Asharp = 60.0;
-			B = 50.0;
-			C = 40.0;
-			Csharp = 30.0;
-			D = 20.0;
-			Dsharp = 10.0;
+			E = 0.49;
+			F = 0.45;
+			Fsharp = 0.41;
+			G = 0.37;
+			Gsharp = 0.33;
+			A = 0.29;
+			Asharp = 0.25;
+			B = 0.21;
+			C = 0.17;
+			Csharp = 0.13;
+			D = 0.9;
+			Dsharp = 0.05;
 
-			boxSize = 20.0;
-			maxDistance = 5.0;
+			boxSize = 0.05;
+			maxDistance = 0.01;
 }
 
 
@@ -68,6 +68,15 @@ void moduleProcessing::calculateVolume(HandsHip *handship){
 	lastPlayingHand = playingHand;
 }
 
+float moduleProcessing::distance(HandsHip *handship){
+	Vector4 chordHand = handship->chordHandPosition;
+	Vector4 hip = handship->hipPosition;
+
+	float distance = (chordHand.x-hip.x)*(chordHand.x-hip.x) + (chordHand.y-hip.y)*(chordHand.y-hip.y);
+
+	return distance;
+}
+
 bool moduleProcessing::playedNote(HandsHip *handship){
 	Vector4 hip = handship->hipPosition;
 	Vector4 playingHand = handship->playingHandPosition;
@@ -84,10 +93,14 @@ bool moduleProcessing::playedNote(HandsHip *handship){
 		dax = dx - ax,
 		day = dy -ay;
 
+
+	isOnPlayingArea = true;
+
 	if ((playingHand.x - ax) * bax + (playingHand.y - ay) * bay < 0.0) this->isOnPlayingArea = false;
 	if ((playingHand.x - bx) * bax + (playingHand.y - by) * bay > 0.0) this->isOnPlayingArea = false;
 	if ((playingHand.x - ax) * dax + (playingHand.y - ay) * day < 0.0) this->isOnPlayingArea = false;
 	if ((playingHand.x - dx) * dax + (playingHand.y - dy) * day > 0.0) this->isOnPlayingArea = false;
+
 
 	if(isOnPlayingArea && !notePlayed){
 		notePlayed = true;

@@ -11,6 +11,8 @@
 #include "cinder/Text.h"
 #include "NuiApi.h"
 #include "moduleCapture.h"
+#include "moduleProcessing.h"
+#include "modulePresentation.h"
 
 
 /* 
@@ -33,6 +35,8 @@ public:
 	moduleCapture capture;
 
 private:
+	modulePresentation mPresentation;
+	moduleProcessing mProcessing;
 	HandsHip *handsHip;
 	ci::gl::TextureFontRef mFont;
 	std::string mText;
@@ -83,6 +87,7 @@ void AirGuitarApp::setup(){
 	mFont = ci::gl::TextureFont::create(Font("Arial Black", 40));
 	mText = "durr";
 	capture = moduleCapture();
+	mPresentation.setSounds(0);
 }
 
 // Called on exit
@@ -100,6 +105,13 @@ void AirGuitarApp::update()
 		mText += std::to_string(handsHip->playingHandPosition.x) + ", " + std::to_string(handsHip->playingHandPosition.y) + ", " + std::to_string(handsHip->playingHandPosition.z);
 		mText += "\n";
 		mText += std::to_string(handsHip->hipPosition.x) + ", " + std::to_string(handsHip->hipPosition.y) + ", " + std::to_string(handsHip->hipPosition.z);
+		mText += "\n";
+		mProcessing.calculateVolume(handsHip);
+		mProcessing.calculateTone(handsHip);
+		if(mProcessing.playedNote(handsHip)){
+			mPresentation.playNote(mProcessing.tone,mProcessing.volume);
+		}
+		mText += std::to_string(mProcessing.tone);
 	} else {
 		mText = "Skeleton not found";
 	}
