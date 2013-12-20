@@ -12,6 +12,7 @@ class moduleProcessing{
 		void calculateTone(HandsHip *handship);
 		void calculateVolume(HandsHip *handship);
 		bool playedNote(HandsHip *handship);
+		float distance(HandsHip *handship);
 
 		float volume;
 		int tone;
