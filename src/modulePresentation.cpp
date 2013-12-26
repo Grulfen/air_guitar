@@ -1,4 +1,5 @@
 #include "modulePresentation.h"
+#include "cinder/ImageIo.h"
 #include "cinder/app/AppBasic.h"
 #include <vector>
 
@@ -24,8 +25,21 @@ modulePresentation::modulePresentation(){
 	notes[11] = "D#2";
 	FMOD::System_Create( &mSystem );
     mSystem->init( 32, FMOD_INIT_NORMAL | FMOD_INIT_ENABLE_PROFILE, NULL );
+	//guitar = ci::loadImage(getAssetPath("electric/image/electric_right.png"));
 }
 
+
+void modulePresentation::drawGuitar(ci::gl::Texture guitar, point HipPos, point chordHandPos)
+{
+	gl::enableAlphaBlending();
+	gl::pushModelView();
+	gl::translate(HipPos.x, HipPos.y);
+	gl::rotate(180 + 180/3.14*atan2(HipPos.y - chordHandPos.y, HipPos.x - chordHandPos.x));
+	gl::translate(-120, -70);
+	gl::draw(guitar);
+	gl::popModelView();
+	gl::disableAlphaBlending();
+}
 void modulePresentation::setSounds(int inst){
 	string instrument;
 	switch(inst){

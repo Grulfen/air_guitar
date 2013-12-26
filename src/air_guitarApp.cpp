@@ -37,6 +37,7 @@ private:
 
 	ci::gl::TextureFontRef mFont;
 	ci::gl::Texture *backgroundTex;
+	ci::gl::Texture guitar;
 	std::string mText;
 	point chordHandPos;
 	point playHandPos;
@@ -57,6 +58,7 @@ void AirGuitarApp::draw()
 	}
 	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
 	if(handsHip != NULL){
+		mPresentation.drawGuitar(guitar, HipPos, chordHandPos);
 		ci::gl::drawSolidCircle( Vec2f( chordHandPos.x, chordHandPos.y), 10);
 		ci::gl::drawSolidCircle( Vec2f( playHandPos.x, playHandPos.y), 10);
 		ci::gl::drawSolidCircle( Vec2f( HipPos.x, HipPos.y), 10);
@@ -92,6 +94,7 @@ void AirGuitarApp::setup(){
 	capture = moduleCapture();
 	backgroundTex = NULL;
 	mPresentation.setSounds(0);
+	guitar = loadImage(getAssetPath("electric/image/electric_right.png"));
 	OutputDebugStringW(L"In setup end\n");
 }
 
