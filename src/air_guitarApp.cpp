@@ -15,10 +15,6 @@
 #include "modulePresentation.h"
 
 
-/* 
-* This application demonstrates how to acquire and display 
-* skeleton data.
-*/ 
 class AirGuitarApp : public ci::app::AppBasic 
 {
 
@@ -33,7 +29,6 @@ public:
 	void	update();
 
 	moduleCapture capture;
-	ci::Surface8u *background;
 
 private:
 	modulePresentation mPresentation;
@@ -41,14 +36,11 @@ private:
 	HandsHip *handsHip;
 
 	ci::gl::TextureFontRef mFont;
-	ci::gl::Texture backgroundTex;
+	ci::gl::Texture *backgroundTex;
 	std::string mText;
-	float chordHandX;
-	float chordHandY;
-	float playHandX;
-	float playHandY;
-	float HipY;
-	float HipX;
+	point chordHandPos;
+	point playHandPos;
+	point HipPos;
 };
 
 // Imports
@@ -60,16 +52,15 @@ using namespace std;
 void AirGuitarApp::draw()
 {
 	ci::gl::clear();
+	if(backgroundTex != NULL){
+		gl::draw(*backgroundTex, getWindowBounds());
+	}
 	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
 	if(handsHip != NULL){
-
-		ci::gl::drawSolidCircle( Vec2f( chordHandX, chordHandY), 10);
-		ci::gl::drawSolidCircle( Vec2f( playHandX, playHandY), 10);
-		ci::gl::drawSolidCircle( Vec2f( HipX, HipY), 10);
+		ci::gl::drawSolidCircle( Vec2f( chordHandPos.x, chordHandPos.y), 10);
+		ci::gl::drawSolidCircle( Vec2f( playHandPos.x, playHandPos.y), 10);
+		ci::gl::drawSolidCircle( Vec2f( HipPos.x, HipPos.y), 10);
 	}
-	//if(background != NULL){
-		//gl::draw(backgroundTex, getWindowBounds());
-	//}
 }
 
 // Handles key press
@@ -99,7 +90,7 @@ void AirGuitarApp::setup(){
 	mFont = ci::gl::TextureFont::create(Font("Arial Black", 40));
 	mText = "durr";
 	capture = moduleCapture();
-	//background = new ci::Surface8u(capture.resolution.width, capture.resolution.height, false);
+	backgroundTex = NULL;
 	mPresentation.setSounds(0);
 	OutputDebugStringW(L"In setup end\n");
 }
@@ -120,18 +111,17 @@ void AirGuitarApp::update()
 		if(mProcessing.playedNote(handsHip)){
 			mPresentation.playNote(mProcessing.tone,mProcessing.volume);
 		}
-		chordHandX = capture.resolution.width*(2 + handsHip->chordHandPosition.x)/4;
-		chordHandY = capture.resolution.width - capture.resolution.width*(2 + handsHip->chordHandPosition.y)/4;
-		playHandX = capture.resolution.width*(2 + handsHip->playingHandPosition.x)/4;
-		playHandY = capture.resolution.width - capture.resolution.width*(2 + handsHip->playingHandPosition.y)/4;
-		HipX = capture.resolution.width*(2 + handsHip->hipPosition.x)/4;
-		HipY = capture.resolution.width - capture.resolution.width*(2 + handsHip->hipPosition.y)/4;
+		chordHandPos = capture.SkeletonPointToScreen(handsHip->chordHandPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
+		playHandPos = capture.SkeletonPointToScreen(handsHip->playingHandPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
+		HipPos = capture.SkeletonPointToScreen(handsHip->hipPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
 		mText = std::to_string(mProcessing.tone);
 	} else {
 		mText = "Skeleton not found";
 	}
-	//capture.getNextFrame(background);
-	//backgroundTex = ci::gl::Texture(*background);
+	ci::gl::Texture *tmp = capture.getNextFrame();
+	if (tmp != NULL){
+		backgroundTex = tmp;
+	}
 }
 
 // Run application

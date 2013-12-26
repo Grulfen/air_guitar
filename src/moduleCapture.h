@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <NuiApi.h>
 #include "cinder/ImageIo.h"
+#include "cinder/gl/Texture.h"
 #include <iostream>
 #include <vector>
 
@@ -11,6 +12,11 @@
 struct resolution_t{
 	int width;
 	int height;
+};
+
+struct point{
+	float x;
+	float y;
 };
 
 struct HandsHip{
@@ -27,8 +33,9 @@ public:
 	int playerId;
 	resolution_t resolution;
 	HandsHip *formHandsHip(int playerId, bool rightHanded=true);
-	void getNextFrame(ci::Surface8u *surface);
+	ci::gl::Texture *getNextFrame();
 	INuiSensor *sensor;
+	point SkeletonPointToScreen(Vector4 skeletonPoint, int height, int width);
 private:
 	HANDLE colorStreamHandle;
 	ci::Surface8u *colorSurface;
