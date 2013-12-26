@@ -76,20 +76,20 @@ HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 
 ci::gl::Texture *moduleCapture::getNextFrame()
 {
-	OutputDebugStringW(L"Next Frame start\n");
+	//OutputDebugStringW(L"Next Frame start\n");
 	
 	HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 0, pColorImageFrame);
 	if (FAILED(hr)){
-		OutputDebugStringW(L"No frame\n");
+		//OutputDebugStringW(L"No frame\n");
 		return NULL;
 	}
-	OutputDebugStringW(L"Got frame\n");
+	//OutputDebugStringW(L"Got frame\n");
 	INuiFrameTexture * colorTexture = pColorImageFrame->pFrameTexture;
 	NUI_LOCKED_RECT *colorRect = new NUI_LOCKED_RECT;
 	//OutputDebugStringW(L"Got colorRect\n");
 	colorTexture->LockRect( 0, colorRect, 0, 0 );
 	if(colorRect->Pitch == 0){
-		OutputDebugStringW(L"colorRect pitch 0\n");
+		//OutputDebugStringW(L"colorRect pitch 0\n");
 		return NULL;
 	}
 	//OutputDebugStringW(L"colorRect pitch != 0\n");
