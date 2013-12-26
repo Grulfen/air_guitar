@@ -6,6 +6,7 @@ using namespace std;
 class modulePresentation{
 
 	public:
+		float globalVolume;
 		modulePresentation();
 		void setSounds(int instrument);
 		void playNote(int note, float volume);
