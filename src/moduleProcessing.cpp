@@ -4,22 +4,21 @@
 using namespace std;
 
 moduleProcessing::moduleProcessing(){
-			E = 0.49f;
-			F = 0.45f;
-			Fsharp = 0.41f;
-			G = 0.37f;
-			Gsharp = 0.33f;
-			A = 0.29f;
-			Asharp = 0.25f;
-			B = 0.21f;
-			C = 0.17f;
-			Csharp = 0.13f;
-			D = 0.9f;
-			Dsharp = 0.05f;
+			E = 0.49;
+			F = 0.45;
+			Fsharp = 0.41;
+			G = 0.37;
+			Gsharp = 0.33;
+			A = 0.29;
+			Asharp = 0.25;
+			B = 0.21;
+			C = 0.17;
+			Csharp = 0.13;
+			D = 0.09;
+			Dsharp = 0.05;
 
-			boxSize = 0.05f;
-			maxDistance = 0.01f;
-
+			boxSize = 0.08;
+			maxDistance = 0.01;
 }
 
 

@@ -24,6 +24,7 @@ modulePresentation::modulePresentation(){
 	notes[10] = "D2";
 	notes[11] = "D#2";
 	FMOD::System_Create( &mSystem );
+	globalVolume = 1.0;
     mSystem->init( 32, FMOD_INIT_NORMAL | FMOD_INIT_ENABLE_PROFILE, NULL );
 	//guitar = ci::loadImage(getAssetPath("electric/image/electric_right.png"));
 }
@@ -62,5 +63,5 @@ void modulePresentation::setSounds(int inst){
 void modulePresentation::playNote(int note, float volume){
 	mChannel->stop();
 	mSystem->playSound( FMOD_CHANNEL_FREE, mSounds[note], false, &mChannel );
-	mChannel->setVolume(volume);
+	mChannel->setVolume(volume*globalVolume);
 }
