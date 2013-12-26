@@ -43,7 +43,6 @@ private:
     float dim; 
     float length; 
 	ci::gl::Texture *backgroundTex;
-	ci::gl::Texture guitar;
 	std::string mText;
 	point chordHandPos;
 	point playHandPos;
@@ -67,15 +66,16 @@ void AirGuitarApp::draw()
 	if(backgroundTex != NULL){
 		gl::draw(*backgroundTex, getWindowBounds());
 	}
+	gl::enableAlphaBlending();
+	gui->draw();
+	gl::disableAlphaBlending();
 	if(handsHip != NULL){
-		mPresentation.drawGuitar(guitar, HipPos, chordHandPos);
+		mPresentation.drawGuitar(HipPos, chordHandPos);
 		ci::gl::drawSolidCircle( Vec2f( chordHandPos.x, chordHandPos.y), 10);
 		ci::gl::drawSolidCircle( Vec2f( playHandPos.x, playHandPos.y), 10);
 		ci::gl::drawSolidCircle( Vec2f( HipPos.x, HipPos.y), 10);
 	}
-	 gl::enableAlphaBlending();
-	 gui->draw();
-	 gl::disableAlphaBlending();
+
 //	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
 }
 
@@ -142,7 +142,7 @@ void AirGuitarApp::setup(){
 
 	capture = moduleCapture();
 	mPresentation.setSounds(0);
-	guitar = loadImage(getAssetPath("electric/image/electric_right.png"));
+	mPresentation.setInstrument(loadImage(getAssetPath("electric/image/electric_right.png")));
 	OutputDebugStringW(L"In setup end\n");
 }
 
@@ -157,10 +157,12 @@ void AirGuitarApp::guiEvent(ciUIEvent *event){
 	if(name == "Electric Guitar")
 	{	
 		mPresentation.setSounds(0);
+		mPresentation.setInstrument(loadImage(getAssetPath("electric/image/electric_right.png")));
 	}
 	if(name == "Bass")
 	{	
 		mPresentation.setSounds(1);
+		mPresentation.setInstrument(loadImage(getAssetPath("bass/image/bass.png")));
 	}
 	if(name == "Right")
 	{
@@ -182,7 +184,7 @@ void AirGuitarApp::update()
 {
 	
 	gui->update(); 
-	handsHip = capture.formHandsHip(0,rightHanded);
+	handsHip = capture.formHandsHip(0, rightHanded);
 	if(handsHip != NULL){
 		/*mText = std::to_string(handsHip->chordHandPosition.x) + ", " + std::to_string(handsHip->chordHandPosition.y) + ", " + std::to_string(handsHip->chordHandPosition.z);
 		mText += "\n";
@@ -190,6 +192,9 @@ void AirGuitarApp::update()
 		mText += "\n";
 		mText += std::to_string(handsHip->hipPosition.x) + ", " + std::to_string(handsHip->hipPosition.y) + ", " + std::to_string(handsHip->hipPosition.z);
 		mText += "\n";*/
+		chordHandPos = capture.SkeletonPointToScreen(handsHip->chordHandPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
+        playHandPos = capture.SkeletonPointToScreen(handsHip->playingHandPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
+        HipPos = capture.SkeletonPointToScreen(handsHip->hipPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
 		mProcessing.calculateVolume(handsHip);
 		mProcessing.calculateTone(handsHip);
 		if(mProcessing.playedNote(handsHip)){
@@ -199,6 +204,7 @@ void AirGuitarApp::update()
 	} else {
 		//mText = "Skeleton not found";
 	}
+
 	ci::gl::Texture *tmp = capture.getNextFrame();
 	if (tmp != NULL){
 		backgroundTex = tmp;

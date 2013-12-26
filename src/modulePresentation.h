@@ -14,12 +14,13 @@ class modulePresentation{
 		modulePresentation();
 		void setSounds(int instrument);
 		void playNote(int note, float volume);
-		void drawGuitar(ci::gl::Texture texture, point HipPos, point playHandPos);
+		void drawGuitar(point HipPos, point chordHandPos);
+		void setInstrument(ci::gl::Texture instrument_texture);
 	
 	private:
 		FMOD::System	*mSystem;
 		FMOD::Channel	*mChannel;
 		vector<FMOD::Sound*>  mSounds;
 		string notes [12];
-		ci::gl::Texture guitar;
+		ci::gl::Texture instrument_texture;
 };
