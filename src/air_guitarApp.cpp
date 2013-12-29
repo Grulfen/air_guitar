@@ -70,10 +70,7 @@ void AirGuitarApp::draw()
 	gui->draw();
 	gl::disableAlphaBlending();
 	if(handsHip != NULL){
-		mPresentation.drawGuitar(HipPos, chordHandPos);
-		ci::gl::drawSolidCircle( Vec2f( chordHandPos.x, chordHandPos.y), 10);
-		ci::gl::drawSolidCircle( Vec2f( playHandPos.x, playHandPos.y), 10);
-		ci::gl::drawSolidCircle( Vec2f( HipPos.x, HipPos.y), 10);
+		mPresentation.drawGuitar(HipPos, chordHandPos, handsHip->hipPosition.z);
 	}
 
 //	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
@@ -184,7 +181,7 @@ void AirGuitarApp::update()
 {
 	
 	gui->update(); 
-	handsHip = capture.formHandsHip(0, rightHanded);
+	handsHip = capture.formHandsHip(rightHanded);
 	if(handsHip != NULL){
 		/*mText = std::to_string(handsHip->chordHandPosition.x) + ", " + std::to_string(handsHip->chordHandPosition.y) + ", " + std::to_string(handsHip->chordHandPosition.z);
 		mText += "\n";

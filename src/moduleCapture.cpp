@@ -2,6 +2,9 @@
 #include "cinder/ImageIo.h"
 #include "string"
 
+/* moduleCapture
+/  Modulo con la interfaz al Kinect
+*/
 moduleCapture::moduleCapture()
 {
 	sensor = NULL;
@@ -10,7 +13,6 @@ moduleCapture::moduleCapture()
 	pSkeletonFrame = new NUI_SKELETON_FRAME;
 	skeleton = new NUI_SKELETON_DATA;
 	pColorImageFrame = new NUI_IMAGE_FRAME;
-	colorSurface = new ci::Surface8u;
 	if(SUCCEEDED(NuiCreateSensorByIndex(0, &sensor))){
 		OutputDebugStringW(L"Connected to Kinect\n");
 		if (SUCCEEDED(sensor->NuiInitialize(NUI_INITIALIZE_FLAG_USES_SKELETON | NUI_INITIALIZE_FLAG_USES_COLOR )))
@@ -30,10 +32,11 @@ moduleCapture::moduleCapture()
 }
 
 moduleCapture::~moduleCapture(){
+	// Con los deletes hay un error con la liberacion de memoria :(
+
 	//delete skeleton;
 	//delete pSkeletonFrame;
 	//delete pColorImageFrame;
-	//delete colorSurface;
 }
 
 point moduleCapture::SkeletonPointToScreen(Vector4 skeletonPoint, int height, int width)
@@ -54,20 +57,20 @@ point moduleCapture::SkeletonPointToScreen(Vector4 skeletonPoint, int height, in
     return p;
 }
 
-HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
+HandsHip *moduleCapture::formHandsHip(bool rightHanded)
 {
-	NUI_SKELETON_DATA *skeleton = getSkeleton(playerId);
-	if(skeleton == NULL){
+	NUI_SKELETON_DATA *skeleton = getSkeleton(); //Obtiene datos del esqueleto
+	if(skeleton == NULL){  // Si no recibimos datos, retorna NULL
 		return NULL;
 	}
 	HandsHip *h = new HandsHip;
+	h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_CENTER];
 	
+	// Llenar los campos del handsHip con los datos del esqueleto teniendo en cuenta la lateralidad del usuario
 	if(rightHanded){
-		h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_CENTER];
 		h->playingHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_RIGHT];
 		h->chordHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_LEFT];
 	} else {
-		h->hipPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_HIP_CENTER];
 		h->playingHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_LEFT];
 		h->chordHandPosition = skeleton->SkeletonPositions[NUI_SKELETON_POSITION_WRIST_RIGHT];
 	}	
@@ -75,43 +78,47 @@ HandsHip *moduleCapture::formHandsHip(int playerId, bool rightHanded)
 }
 
 ci::gl::Texture *moduleCapture::getNextFrame()
-{
-	//OutputDebugStringW(L"Next Frame start\n");
-	
-	HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 0, pColorImageFrame);
+{	
+	HRESULT hr = sensor->NuiImageStreamGetNextFrame(colorStreamHandle, 0, pColorImageFrame); // Obtiene el siguiente frame del kinect
 	if (FAILED(hr)){
-		//OutputDebugStringW(L"No frame\n");
-		return NULL;
+		return NULL; // Si habia error, retorna NULL
 	}
-	//OutputDebugStringW(L"Got frame\n");
-	INuiFrameTexture * colorTexture = pColorImageFrame->pFrameTexture;
+	INuiFrameTexture *colorTexture = pColorImageFrame->pFrameTexture;
 	NUI_LOCKED_RECT *colorRect = new NUI_LOCKED_RECT;
-	//OutputDebugStringW(L"Got colorRect\n");
 	colorTexture->LockRect( 0, colorRect, 0, 0 );
 	if(colorRect->Pitch == 0){
-		//OutputDebugStringW(L"colorRect pitch 0\n");
 		return NULL;
 	}
-	//OutputDebugStringW(L"colorRect pitch != 0\n");
+
+	// Crea un gl::Texture con los datos del frame
 	uint8_t *buffer = colorRect->pBits;
 	int size        = resolution.width * resolution.height * 4;
 	ci::gl::Texture *texture = new ci::gl::Texture(buffer, GL_BGRA, resolution.width, resolution.height);
 	colorTexture->UnlockRect(0);
+
+	// Libera el frame del kinect
 	sensor->NuiImageStreamReleaseFrame(colorStreamHandle, pColorImageFrame);
+
+	// Retorna la textura
 	return texture;
 }
 
-NUI_SKELETON_DATA *moduleCapture::getSkeleton(int playerId)
+NUI_SKELETON_DATA *moduleCapture::getSkeleton()
 {
-		// TODO Fix playerId
+		// Obtiene el siguente frame con datos del esqueleto
 		sensor->NuiSkeletonGetNextFrame(1000, pSkeletonFrame);
+
+		// Filtra el resolutado para suavizar los movimientos
 		sensor->NuiTransformSmooth(pSkeletonFrame, NULL);
 		for(int i=0;i<NUI_SKELETON_COUNT;i++){
+			// Busca los esqueletos que son seguidos
 			skeleton = &pSkeletonFrame->SkeletonData[i];
 			if(skeleton->eTrackingState == NUI_SKELETON_TRACKED)
 			{
+				// Retorna el primer esqueleto seguido
 				return skeleton;
 			}
 		}
+		// Si no encuentra esqueletos seguidos, retorna NULL
 		return NULL;
 }

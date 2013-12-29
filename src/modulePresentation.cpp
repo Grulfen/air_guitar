@@ -28,15 +28,37 @@ modulePresentation::modulePresentation(){
     mSystem->init( 32, FMOD_INIT_NORMAL | FMOD_INIT_ENABLE_PROFILE, NULL );
 }
 
-void modulePresentation::drawGuitar(point HipPos, point chordHandPos)
+void modulePresentation::drawGuitar(point HipPos, point chordHandPos, float hipZ)
 {
+	// Calcula el valor del escalamiento de la guitarra como funcion de la distanca de cadera a la camara 
+	float scaleValue = 2.9/(hipZ);
+
+	// Habilita canal alpha
 	gl::enableAlphaBlending();
+
+	// Nuevo visto del modelo
 	gl::pushModelView();
+
+	// Las transformaciones en orden reverso
+	// Pone guitarra sobra la cadera del usuario
 	gl::translate(HipPos.x, HipPos.y);
+
+	// Rota la guitarra asi que esta entra la cadera y la mano de acordes
 	gl::rotate(180 + 180/3.14*atan2(HipPos.y - chordHandPos.y, HipPos.x - chordHandPos.x));
+
+	// Escala la guitarra
+	gl::scale(scaleValue, scaleValue);
+
+	// Mueve la guitarra asi que el centro esta en (0, 0)
 	gl::translate(-120, -70);
+
+	// Pinta la guitarra
 	gl::draw(instrument_texture);
+
+	// Listo con las transformaciones
 	gl::popModelView();
+
+	// Deshabilita canal alpha
 	gl::disableAlphaBlending();
 }
 
