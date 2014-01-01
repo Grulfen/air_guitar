@@ -1,0 +1,378 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage[margin=25mm]{geometry}
+
+\lstset{language=c++}
+
+\title{Documento de Implementación}
+\author{Carlos Bergen Dyck \and Gustav Svensk}
+\begin{document}
+
+\renewcommand{\arraystretch}{1.5}
+\maketitle
+\begin{center}
+        {\large Versión 0.1}
+\end{center}
+\newpage
+\section{Enumeración de Archivos de Codigo Fuente}
+Los archivos de código fuente son:
+\begin{itemize}
+\item{air\_guitarApp.cpp}
+\item{moduleCapture.cpp}
+\item{moduleCapture.h}
+\item{modulePresentation.cpp}
+\item{modulePresentation.h}
+\item{moduleProcessing.cpp}
+\item{moduleProcessing.h}
+\end{itemize}
+
+\section{moduleCapture}
+\label{sec:captura}
+El módulo con la interfaz al Kinect.
+\subsection{Estructuras de Datos}
+\begin{itemize}
+\item{resolution\_t - Estructura que contiene la resolución de la ventana en pixels}
+\item{point - Estructura para representar un punto}
+\item{HandsHip - Estructura con los puntos interesante del esqueleto, en metros}
+\end{itemize}
+\subsection{Clases}
+moduleCapture - Clase que representa el módulo.
+Hay métodos para obtener las posiciones de los puntos interesantes del esqueleto del 
+usuario, para obtener un frame de la camara de color y para convertir un punto en espacio de
+esqueleto (metros) a un punto en el espacio de la ventana (pixels).
+
+% \section{Módulo de Procesamiento}
+% \label{sec:procesamiento}
+% \subsection{Definición de Módulo}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Calcular el tono y volumen y ver si una nota fue tocada.\\
+%         \textbf{Alcance} & Calcula el tono basado en la distancia de la mano izquierda y la cadera. Calcula el volumen basado en la velocidad de la mano derecha y ve si una nota fue tocada si la mano derecha se encuentra sobre un área predefinida.\\
+%         \textbf{Dependencias} & Depende del modulo de captura.\\
+%         \textbf{Supuestos} & Un funcionamiento correcto del modulo de captura.\\
+%         \textbf{Restricciones} & Existira un rango de tonos disponibles para tocar y tendra un limite de volumen.\\
+%         \textbf{Estructura General} & Recibe los puntos obtenidos del modulo de captura. Entrega el tono y volumen de la nota actual y si esta debe ser reproducida. Entrega la posición donde debe ser proyectada la guitarra. \\
+% \end{tabularx}
+% \subsection{Declaraciones Públicas}
+% Esta sección enumera constantes, tipos y variables del módulo, visibles para
+% otros módulos.
+% \subsubsection{Constantes Públicas}
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{constante}} & \textbf{Descripción} \\
+%         \hline
+%         E & Distancia de la nota E\\
+%         F & Distancia de la nota F\\
+%         F\# & Distancia de la nota F\#\\
+%         G & Distancia de la nota G\\
+%         G\# & Distancia de la nota G\#\\
+%         A & Distancia de la nota A\\
+%         A\# & Distancia de la nota A\#\\
+%         B & Distancia de la nota B\\
+%         C & Distancia de la nota C\\
+%         C\# & Distancia de la nota C\#\\
+%         D & Distancia de la nota D\\
+%         D\# & Distancia de la nota D\#\\
+%          boxSize & Tamaño del area donde se puede tocar la nota\#\\
+%         \hline
+% \end{tabular}
+
+                
+
+% \subsubsection{Variables Públicos}
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{variable}} & \textbf{Descripción} \\
+%         \hline
+%         Tono & El tono de la nota.\\
+%         Volumen & El volumen de la nota.\\
+%         \hline
+% \end{tabular}
+% \subsection{Funciones Públicas}
+% Las siguientes funciones son accesibles desde otros módulos. Otros módulos
+% tienen acceso a la funcionalidad de este módulo mediante estas funciones.
+% ~\\
+
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
+%         \hline
+%         calculateTone & Determina el tono de la nota que se va a tocar.\\
+%         calculateVolume & Determina el volumen de la nota que se va a tocar.\\
+%         playedNote & Determina si el usuario toco una nota.\\
+%         \hline
+% \end{tabular}
+% \subsection{Estructuras de Datos}
+% \subsection{Diseño Detallado de las Funciones}
+% \subsubsection{calculateTone}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Descripción} & Obtener el tono de la nota actual. \\
+%         \textbf{Dependencias} & \\
+%         \textbf{Prototipo} & \lstinline{void calculateTone(HandsHip *handship);}\\
+%         \textbf{Parámetro} & \textbf{Explicación} \\
+%         \begin{tabular}{p{2cm} l}
+%                 handsHip & Posición de las manos y la cadera \\
+%         \end{tabular}\\
+
+%         \textbf{Retorno} & \\
+%         \textbf{Proceso} & 
+%                \begin{lstlisting}[breaklines=true]^^J
+%             chordHand = handship->chordHand;^^J
+%             hip = handship->hip;^^J
+%             float distance = (chordHand.X - hip.X)*(chordHand.X - hip.X) + (chordHand.Y - hip.Y)*(chordHand.Y - hip.Y);^^J
+%             if(distance > E)\{^^J
+%             \    note = 0;^^J
+%             \}else if(distance > F)\{^^J
+%             \    note = 1;^^J
+%             \}else if(distance > F#)\{^^J
+%             \    note = 2;^^J
+%             \}else if(distance > G)\{^^J
+%             \    note = 3;^^J
+%             \}else if(distance > G#)\{^^J
+%             \    note = 4;^^J
+%             \}else if(distance > A)\{^^J
+%             \    note = 5;^^J
+%             \}else if(distance > A#)\{^^J
+%             \    note = 6;^^J
+%             \}else if(distance > B)\{^^J
+%             \    note = 7;^^J
+%             \}else if(distance > C)\{^^J
+%             \    note = 8;^^J
+%             \}else if(distance > C#)\{^^J
+%             \    note = 9;^^J
+%             \}else if(distance > D)\{^^J
+%             \    note = 10;^^J
+%             \}else\{^^J
+%             \    note = 11;^^J
+%             \}^^J
+%         \end{lstlisting} 
+%  \\
+% \end{tabularx}
+
+% \subsubsection{Función calculateVolume}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Calcular el volumen de la nota\\
+%         \textbf{Dependencias} & \\
+%         \textbf{Prototipo} & \lstinline{void calculateVolume(HandsHip *handsHip);}\\
+%         \textbf{Parámetro} & \textbf{Explicación} \\
+%         \begin{tabular}{p{2cm} l}
+%                 handsHip & La posición actual de las manos y la cadera \\
+%         \end{tabular} \\
+
+%         \textbf{Retorno} &\\
+%         \textbf{Proceso} & 
+%         \begin{lstlisting}[breaklines=true]^^J
+%             rightHand = handsHip->rightHand;^^J
+%         float distance = (rightHand.X - lastRightHand.X)*(rightHand.X - lastRightHand.X)^^J
+%                         + (rightHand.Y - lastRightHand.Y)*(rightHand.Y - lastRightHand.Y);^^J
+%         if(distance>maxDistance)\{^^J
+%         \    volume = maxDistance;^^J
+%         \}else\{^^J
+%          \    volume = distance/maxDistance;^^J
+%         \}^^J
+%         lastRightHand = rightHand;^^J
+%         \end{lstlisting}
+%              \\
+% \end{tabularx}
+
+% \subsubsection{Función playedNote}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Determina si el usuario toco una nota\\
+%         \textbf{Dependencias} & \\
+%         \textbf{Prototipo} & \lstinline{boolean playedNote(HandsHip *handsHip);}\\
+%         \textbf{Parámetro} & \textbf{Explicación} \\
+%         \begin{tabular}{p{2cm} l}
+%                 handsHip & La posición actual de las manos y la cadera \\
+%         \end{tabular} \\
+
+%         \textbf{Retorno} & Valor booleano que indica si una nota fue tocada\\
+%         \textbf{Proceso} & 
+%         \begin{lstlisting}[breaklines=true]^^J
+%             hip = handsHip->hip;^^J
+%             rightHand = handsHip->rightHand;^^J
+%             ax = hip.X-boxSize;^^J
+%             ay = hip.Y-boxSize;^^J
+%             bx = hip.X+boxSize;^^J
+%             by = hip.Y-boxSize;^^J
+%             dx = hip.X+boxSize;^^J
+%             dy = hip.Y+boxSize;^^J
+%             bax = bx - ax;^^J
+%             bay = by - ay;^^J
+%             dax = dx - ax;^^J
+%             day = dy - ay;^^J
+%             if ((x-ax)*bax+(y-ay)*bay<0.0) isOnPlayingArea = false;^^J
+%             if ((x-bx)*bax+(y-by)*bay<0.0) isOnPlayingArea = false;^^J
+%             if ((x-ax)*dax+(y-ay)*day<0.0) isOnPlayingArea = false;^^J
+%             if ((x-ax)*bax+(y-ay)*bay<0.0) isOnPlayingArea = false;^^J
+%             if ((x-ax)*bax+(y-ay)*bay<0.0) isOnPlayingArea = false;^^J
+%             if ((x-bx)*bax+(y-by)*bay<0.0) isOnPlayingArea = false;^^J
+%             if ((x-ax)*dax+(y-ay)*day<0.0) isOnPlayingArea = false;^^J
+%             if ((x-ax)*bax+(y-ay)*bay<0.0) isOnPlayingArea = false;^^J
+%             if(isOnPlayingArea \&\& !notePlayed)\{^^J
+%             \    notePlayed = true;^^J
+%             \    return = true;^^J
+%             \}^^J
+%             if(!isOnPlayingArea) notePlayed = false;^^J
+%             return false;^^J
+%         \end{lstlisting}
+%              \\
+% \end{tabularx}
+
+% \section{Módulo de Presentación}
+% \label{sec:presentacion}
+% \subsection{Definición de Módulo}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Se encarga de dibujar las pantallas de la aplicación y la guitarra así como reproducir los sonidos de las notas tocadas.\\
+%         \textbf{Alcance} & Reproduce el sonido correspondiente a la nota calculada y proyecta un modelo 3D de una guitarra sobre el usuario.\\
+%         \textbf{Dependencias} & Depende del modulo de procesamiento y captura.\\
+%         \textbf{Supuestos} & Tener una tarjeta gráfica apropiada así como una tarjeta de sonido.\\
+%         \textbf{Restricciones} & Reproducir los sonidos correspondientes definidos anteriormente.\\
+%         \textbf{Estructura General} & Recibe la posición de la guitarra, el
+%         tono y volumen de la nota y si esta fue tocada. Dibuja en la pantalla
+%         la imagen del usuario con un modelo 3D de una guitarra proyectada y
+%         reproduce el sonido apropiado.\\
+% \end{tabularx}
+% \subsection{Declaraciones Públicas}
+% Esta sección enumera constantes, tipos y variables del módulo, visibles para
+% otros módulos.
+% \subsubsection{Estructuras de Datos}
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{estructura}} & \textbf{Descripción} \\
+%         \hline
+%         Guitar & Objeto que contiene la información de la guitarra, la imagen, que tipo es, el objeto 3d con orientación y escala\\
+%         \hline
+% \end{tabular}
+% \subsection{Funciones Públicas}
+% Las siguientes funciones son accesibles desde otros módulos. Otros módulos
+% tienen acceso a la funcionalidad de este módulo mediante estas funciones.~\\
+
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
+%         \hline
+%         drawImage & Pinta la imagen del Kinect al fondo \\
+%         \hline
+%         drawGuitar & Pinta la guitarra sobre el usuario \\
+%         \hline
+%         playTone & Toca un tono \\
+%         \hline
+% \end{tabular}
+
+% \subsubsection{Variables Privadas}
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{variable}} & \textbf{Descripción} \\
+%         \hline
+%         guitar & el objeto que contiene la información de la guitarra\\
+%         \hline
+% \end{tabular}
+% \subsection{Funciones Privadas}
+% Las siguientes funciones auxiliares son privadas de este módulo; otros módulos
+% no las pueden usar.~\\
+
+% \begin{tabular}{| p{30mm} | p{10cm} |}
+%         \hline
+%         \textbf{Nombre de la \mbox{función}} & \textbf{Descripción breve} \\
+%         \hline
+%         calcGuitarPos & Calcula la posición normalizada de la guitarra en base a la cadera y longitud de guitarra \\
+%         \hline
+% \end{tabular}
+% \subsection{Diseño Detallado de las Funciones}
+% \subsubsection{drawImage}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Pinta la imagen obtenido del Kinect al fondo\\
+%         \textbf{Dependencias} & openFrameworks \\
+%         \textbf{Prototipo} & \lstinline{void drawImage(ImageFrame *image);}\\
+%         \textbf{Parámetro} & \textbf{Explicación} \\
+%         \begin{tabular}{p{2cm} l}
+%                image & La imagen a pintar, obtenido del modulo de captura\\
+%         \end{tabular}\\
+
+%         \textbf{Retorno} & Nada\\
+%         \textbf{Proceso} & 
+%         \begin{lstlisting}[breaklines=true]^^J
+%         ofImage tmpImage = ofImage(image);^^J
+%                 tmpImage.draw(0,0);^^J
+%         \end{lstlisting}
+
+% \end{tabularx}
+% \subsubsection{drawGuitar}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Pinta la guitarra sobre la imagen del usuario\\
+%         \textbf{Dependencias} & openFrameworks y calcGuitarPos\\
+%         \textbf{Prototipo} & void drawGuitar()\\
+%         \textbf{Retorno} & Nada \\
+%         \textbf{Proceso} & 
+%         \begin{lstlisting}[breaklines=true]^^J
+%                 int positions[4];^^J
+%                 positions = calculateGuitarPosition();^^J
+%                 guitar.setRotation(atan2(position[3] - position[1], position[2] - position[0]));^^J
+%                 guitar.draw(position[0], position[1]);^^J
+%         \end{lstlisting}
+% \end{tabularx}
+% \subsubsection{playTone}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Toca el tono recibido como parametro \\
+%         \textbf{Dependencias} & Módulo de Procesamiento y openFrameworks\\
+%         \textbf{Prototipo} & void playTone(int tone, int volume);\\
+%         \textbf{Parámetro} & \textbf{Explicación} \\
+%         \begin{tabular}{p{2cm} l}
+%                 tone & El tono a tocar \\
+%                 volume & El volumen debido a la velocidad de la mano derecha\\
+%         \end{tabular}\\
+%         \textbf{Retorno} & Nada \\
+%         \textbf{Proceso} & 
+%         \begin{lstlisting}[breaklines=true]^^J
+%                 int total_volume = volume * ui->volume;^^J
+%                 ofSoundPlayer note;^^J
+%                 ofSoundSetVolume(volume);
+%                 note.load(tone);^^J
+%                 note.play();^^J
+%         \end{lstlisting}
+
+%         \\
+% \end{tabularx}
+
+% \newpage
+
+% \subsubsection{calcGuitarPos}
+% \begin{tabularx}{\textwidth}{p{25mm} X}
+%         \textbf{Propósito} & Calcula la posición de la base y cabeza de la guitarra\\
+%         \textbf{Dependencias} & Módulo de Captura \\
+%         \textbf{Prototipo} & \lstinline{int* calcGuitarPos(HandsHip handsHip);}\\
+%         \textbf{Parámetro} & \textbf{Explicación} \\
+%         \begin{tabular}{p{2cm} l}
+%                 handsHip & Información sobre las posiciones de las manos y cadera del usuario \\
+%         \end{tabular}\\
+
+%         \textbf{Retorno} & Un arreglo de enteros que representa las posiciones de la base y cabeza de la guitarra\\
+%         \textbf{Proceso} & 
+%         \begin{lstlisting}[breaklines=true]^^J
+%                 int pos* = new int[4];^^J
+%                 int hipx = handsHip->hipPosition[0];^^J
+%                 int hipy = handsHip->hipPosition[1];^^J
+%                 int handx = handsHip->chordHandPosition[0];^^J
+%                 int handy = handsHip->chordHandPosition[1];^^J
+%                 float dx = handx - hipx;^^J
+%                 float dy = handy - hipy;^^J
+%                 float normValue sqrt(dx*dx + dy*dy);^^J
+%                 dx = dx/normValue;^^J
+%                 dy = dy/normValue;^^J
+%                 pos[0] = hipx;^^J
+%                 pos[1] = hipy;^^J
+%                 pos[2] = (int)hipx + dx*gitarr->length;^^J
+%                 pos[3] = (int)hipy + dy*gitarr->length;^^J
+%                 return pos;^^J
+%         \end{lstlisting}
+
+\end{document} 
+%%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:
