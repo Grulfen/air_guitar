@@ -46,17 +46,25 @@ El módulo con la interfaz al Kinect.
 \end{itemize}
 \subsection{Clases}
 moduleCapture - Clase que representa el módulo.
-Hay métodos para obtener las posiciones de los puntos interesantes del esqueleto del 
-usuario, para obtener un frame de la cámara de color y para convertir un punto en espacio de
-esqueleto (metros) a un punto en el espacio de la ventana (pixels).
+Tiene métodos para obtener las posiciones de los puntos interesantes del
+esqueleto del usuario, para obtener un frame de la cámara de color y para
+convertir un punto en espacio de esqueleto (metros) a un punto en el espacio de
+la ventana (pixels).
 
 \section{air\_guitarApp}
 Archivo donde esta la aplicación principal. Usa la librería cinder.
 \subsection{Clases}
 AirGuitarApp - aplicación principal.
-Contiene métodos para pintar en pantalla (draw), manejar pulses de teclas (keyDown), 
-actualización (update), inicialización (setup) y eventos del GUI (guiEvent)
-Tiene los módulos como atributos para usar sus métodos y atributos.
+Tiene métodos para pintar en pantalla (draw), manejar pulses de teclas
+(keyDown), actualización (update), inicialización (setup) y eventos del GUI
+(guiEvent) Tiene los módulos como atributos para usar sus métodos y atributos.
+
+\section{modulePresentation}
+El módulo con la interfaz a la pantalla y altavoces.
+\subsection{moduleProcessing}
+modulePresentation - Clase que representa el módulo.
+Tiene métodos para calcular el tono, calcular el volumen y si una nota esta
+tocado ahora.
 
 \end{document} 
 %%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:
