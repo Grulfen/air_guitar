@@ -14,10 +14,10 @@
 #include "moduleProcessing.h"
 #include "modulePresentation.h"
 #include "ciUI.h" 
+
 /* 
-* This application demonstrates how to acquire and display 
-* skeleton data.
-*/ 
+ * Aplicación principal de air guitar!
+ */
 class AirGuitarApp : public ci::app::AppBasic 
 {
 
@@ -26,15 +26,13 @@ public:
 	// Cinder callbacks
 	void	draw();
 	void	keyDown( ci::app::KeyEvent event );
-//	void	prepareSettings( ci::app::AppBasic::Settings *settings );
 	void	setup();
 	void	shutdown();
 	void	update();
 	void	guiEvent(ciUIEvent *event);
 
-	moduleCapture capture;
-
 private:
+	moduleCapture capture;
 	modulePresentation mPresentation;
 	moduleProcessing mProcessing;
 	HandsHip *handsHip;
@@ -43,9 +41,7 @@ private:
     float dim; 
     float length; 
 	ci::gl::Texture *backgroundTex;
-	std::string mText;
 	point chordHandPos;
-	point playHandPos;
 	point HipPos;    
     ColorA backgroundColor; 
     ciUICanvas *gui; 
@@ -61,19 +57,23 @@ using namespace std;
 // Render
 void AirGuitarApp::draw()
 {
+	// Limpia la pantalla
 	ci::gl::clear(backgroundColor);
 	
+	// Pinta el fondo (imagens del usario)
 	if(backgroundTex != NULL){
 		gl::draw(*backgroundTex, getWindowBounds());
 	}
+
+	// Pinta el UI (con canal alpha)
 	gl::enableAlphaBlending();
 	gui->draw();
 	gl::disableAlphaBlending();
+
+	// Pintar guitarra
 	if(handsHip != NULL){
 		mPresentation.drawGuitar(HipPos, chordHandPos, handsHip->hipPosition.z);
 	}
-
-//	mFont->drawString(mText, cinder::Rectf(0,0,800,200));
 }
 
 // Handles key press
@@ -88,28 +88,15 @@ void AirGuitarApp::keyDown( KeyEvent event )
 	case KeyEvent::KEY_f:
 		setFullScreen( !isFullScreen() );
 		break;
-	case KeyEvent::KEY_SPACE:
-		/*if(mText == "hejsan"){
-			mText = "apfan";
-		} else {
-			mText = "hejsan";
-		}*/
-		break;
 	}
 }
-
-// Prepare window
-/*void AirGuitarApp::prepareSettings( Settings *settings )
-{
-        settings->setWindowSize( 800, 600 );
-        settings->setFrameRate( 60.0f );
-}*/
 
 // Set up
 void AirGuitarApp::setup(){
 	backgroundTex = NULL;
-     
-    backgroundColor = ColorA(233.0/255.0, 52.0/255.0, 27.0/255.0);     
+    backgroundColor = ColorA(233.0/255.0, 52.0/255.0, 27.0/255.0);   
+
+	// Initializa el GUI
     guiWidth = getWindowWidth()*.4; 
     guiHeight= getWindowHeight()*.75; 
     dim = guiWidth*.0625; 
@@ -121,12 +108,10 @@ void AirGuitarApp::setup(){
 	instruments.push_back("Electric Guitar");
 	instruments.push_back("Bass");
 
-
 	vector<string> handedness;
 	handedness.push_back("Right");
 	handedness.push_back("Left");
 	
-    
     gui = new ciUICanvas(10,10,guiWidth, guiHeight);
 	gui->addWidgetDown(new ciUILabel(0,25, "AIRGUITAR", CI_UI_FONT_MEDIUM)); 
 	gui->addWidgetDown(new ciUISlider(length - CI_UI_GLOBAL_WIDGET_SPACING, dim, 0.0, 1.0, 1.0, "Volume")); 
@@ -137,6 +122,7 @@ void AirGuitarApp::setup(){
    
     gui->registerUIEvents(this, &AirGuitarApp::guiEvent);
 
+	//Initializa módulos
 	capture = moduleCapture();
 	mPresentation.setSounds(0);
 	mPresentation.setInstrument(loadImage(getAssetPath("electric/image/electric_right.png")));
@@ -151,6 +137,8 @@ void AirGuitarApp::guiEvent(ciUIEvent *event){
 		ciUISlider *slider = (ciUISlider *) event->widget; 
 		mPresentation.globalVolume = slider->getScaledValue(); 
 	}
+
+	// Cambia sonidos y imagen según el instrumento indicado por el UI
 	if(name == "Electric Guitar")
 	{	
 		mPresentation.setSounds(0);
@@ -161,6 +149,8 @@ void AirGuitarApp::guiEvent(ciUIEvent *event){
 		mPresentation.setSounds(1);
 		mPresentation.setInstrument(loadImage(getAssetPath("bass/image/bass.png")));
 	}
+
+	// Cambia la lateralidad
 	if(name == "Right")
 	{
 		rightHanded = true;
@@ -179,29 +169,27 @@ void AirGuitarApp::shutdown()
 // Runs update logic
 void AirGuitarApp::update()
 {
-	
+	// Actualiza el gui
 	gui->update(); 
+
+	// Actualiza las posiciones de la cadera y las manos
 	handsHip = capture.formHandsHip(rightHanded);
 	if(handsHip != NULL){
-		/*mText = std::to_string(handsHip->chordHandPosition.x) + ", " + std::to_string(handsHip->chordHandPosition.y) + ", " + std::to_string(handsHip->chordHandPosition.z);
-		mText += "\n";
-		mText += std::to_string(handsHip->playingHandPosition.x) + ", " + std::to_string(handsHip->playingHandPosition.y) + ", " + std::to_string(handsHip->playingHandPosition.z);
-		mText += "\n";
-		mText += std::to_string(handsHip->hipPosition.x) + ", " + std::to_string(handsHip->hipPosition.y) + ", " + std::to_string(handsHip->hipPosition.z);
-		mText += "\n";*/
+		// Calcula las nuevas posiciones en pixeles
 		chordHandPos = capture.SkeletonPointToScreen(handsHip->chordHandPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
-        playHandPos = capture.SkeletonPointToScreen(handsHip->playingHandPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
         HipPos = capture.SkeletonPointToScreen(handsHip->hipPosition, ci::app::getWindowHeight(), ci::app::getWindowWidth());
+
+		// Calcula volumen y tono
 		mProcessing.calculateVolume(handsHip);
 		mProcessing.calculateTone(handsHip);
+
+		// Toca tono si la mano esta sobre las cuerdas
 		if(mProcessing.playedNote(handsHip)){
-			mPresentation.playNote(mProcessing.tone,mProcessing.volume);
+			mPresentation.playNote(mProcessing.tone, mProcessing.volume);
 		}
-		//mText += std::to_string(mProcessing.tone);
-	} else {
-		//mText = "Skeleton not found";
 	}
 
+	// Actualiza la imagen del usuario
 	ci::gl::Texture *tmp = capture.getNextFrame();
 	if (tmp != NULL){
 		backgroundTex = tmp;

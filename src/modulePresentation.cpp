@@ -31,7 +31,8 @@ modulePresentation::modulePresentation(){
 void modulePresentation::drawGuitar(point HipPos, point chordHandPos, float hipZ)
 {
 	// Calcula el valor del escalamiento de la guitarra como funcion de la distanca de cadera a la camara 
-	float scaleValue = 2.9/(hipZ);
+	float scaleValueW = ci::app::getWindowWidth()/360/(hipZ);
+	float scaleValueH = ci::app::getWindowHeight()/208.0/(hipZ);
 
 	// Habilita canal alpha
 	gl::enableAlphaBlending();
@@ -47,7 +48,7 @@ void modulePresentation::drawGuitar(point HipPos, point chordHandPos, float hipZ
 	gl::rotate(180 + 180/3.14*atan2(HipPos.y - chordHandPos.y, HipPos.x - chordHandPos.x));
 
 	// Escala la guitarra
-	gl::scale(scaleValue, scaleValue);
+	gl::scale(scaleValueW, scaleValueH);
 
 	// Mueve la guitarra asi que el centro esta en (0, 0)
 	gl::translate(-120, -70);
@@ -84,7 +85,6 @@ void modulePresentation::setSounds(int inst){
 		mSounds.push_back(mSound);
 	}
 }
-
 
 void modulePresentation::playNote(int note, float volume){
 	mChannel->stop();
