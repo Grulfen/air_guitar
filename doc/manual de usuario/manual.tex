@@ -1,0 +1,44 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{textcomp}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage[margin=25mm]{geometry}
+
+\lstset{language=c++}
+
+\title{Manual de usuario}
+\author{Carlos Bergen Dyck \and Gustav Svensk}
+\begin{document}
+
+\renewcommand{\arraystretch}{1.5}
+\maketitle
+\begin{center}
+        {\large Versión 0.1}
+\end{center}
+\newpage
+
+\section{Introducción}
+Air Guitar! es una aplicación de PC que permite simular el tocar un instrumento como la guitarra o el bajo a traves de movimientos del usuario que son capturados por medio de un Kinect.
+
+
+\section{Instrucciones de uso}
+Para iniciar la aplicación es necesario tener un Kinect ya conectado a la computadora. A veces puede ser que no funcione en un puerto USB por lo que si existe un error se puede probar en otros puertos USB. Una vez iniciada la aplicación hay que pararse frente al Kinect a una distancia entre 2 y 4 metros, cuando la aplicación detecte un usuario dibujara el instrumento sobre el. Solo funciona con un usuario a la vez.
+Para tocar hay que pasar la mano derecha sobre la zona de las pastillas como si estuviera tocando una guitarra normal. Entre más rápido mueva la mano derecha, con más volumen se escuchara la nota. El tono se puede controlar con la mano izquierda, igual que una guitarra normal, entre mas lejos mas grave la nota.
+En la parte superior izquierda de la pantalla existen varios controles con los que el usuario puede interactuar:
+\subsection{Volumen}
+Es un slider que controla el volumen máximo de la aplicación.
+\subsection{Instrumento}
+Es un grupo de botones de opción para poder seleccionar el instrumento que se desee tocar, ahora existen las opciones de guitarra eléctrica o bajo.
+\subsection{Lateralidad}
+Es un grupo de botones de opción que permiten seleccionar la lateralidad del usuario, ya sea zurdo o diestro.
+
+
+\end{document} 
+%%% Local Variables: %%% mode: latex %%% TeX-master: t %%% End:
